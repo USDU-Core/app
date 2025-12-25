@@ -170,7 +170,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 				</div>
 			</header>
 
-			<main className="">{children}</main>
+			<main className="max-md:mt-18">{children}</main>
 
 			<Footer />
 		</div>

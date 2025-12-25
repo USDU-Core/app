@@ -19,7 +19,7 @@ export default function Hero() {
 			</div>
 
 			{/* Content */}
-			<div className="relative container mx-auto px-4 text-center">
+			<div className="relative container mx-auto px-4 max-md:mt-12 text-center">
 				<motion.div
 					initial={{ opacity: 0, y: 30 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -84,7 +84,7 @@ export default function Hero() {
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.8, delay: 0.8 }}
-						className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+						className="flex flex-col sm:flex-row gap-4 justify-center items-center max-md:pb-32">
 						<Button
 							size="lg"
 							href="/dashboard"

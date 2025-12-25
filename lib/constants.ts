@@ -8,7 +8,7 @@ export const APP_URL =
 // Project information
 export const PROJECT = {
 	name: 'USDU Finance',
-	blockchains: ['Ethereum', 'Base'],
+	blockchains: ['Ethereum'],
 	tagline: 'Low-Cost Stable Funding for On-Chain Credit',
 	description:
 		'Protocol-issued, non-algorithmic stablecoin offering ~4-6% fixed-term funding for structured finance and credit markets. Fully convertible to USDC on-chain.',
