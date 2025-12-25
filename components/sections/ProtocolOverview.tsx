@@ -9,6 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useProtocolData } from '@/hooks/useProtocolData';
 import { formatValueWithState, formatPriceWithState } from '@/lib/utils';
+import { ADAPTERS } from '@/lib/addresses';
 
 const features = [
 	{
@@ -128,7 +129,7 @@ export default function ProtocolOverview() {
 									usduPrice,
 									isLoading,
 									error,
-									6
+									5
 								)}
 							</div>
 							<div className="text-sm text-usdu-card">
@@ -137,7 +138,7 @@ export default function ProtocolOverview() {
 						</div>
 						<div>
 							<div className="text-2xl font-bold text-usdu-card mb-2">
-								4
+								{Object.keys(ADAPTERS).length}
 							</div>
 							<div className="text-sm text-usdu-card">
 								Protocol Adapters

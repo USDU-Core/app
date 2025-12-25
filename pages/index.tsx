@@ -2,8 +2,10 @@ import Hero from '@/components/sections/Hero';
 import ProtocolOverview from '@/components/sections/ProtocolOverview';
 import PrimaryApplications from '@/components/sections/PrimaryApplications';
 import TransparencyRisk from '@/components/sections/TransparencyRisk';
-import About from '@/components/sections/About';
+import UnderstandingProtocol from '@/components/sections/UnderstandingProtocol';
 import Contact from '@/components/sections/Contact';
+import OperationalStructure from '@/components/sections/OperationalStructure';
+import LiveMarkets from '@/components/sections/LiveMarkets';
 
 export default function HomePage() {
 	return (
@@ -12,7 +14,9 @@ export default function HomePage() {
 			<ProtocolOverview />
 			<PrimaryApplications />
 			<TransparencyRisk />
-			<About />
+			<UnderstandingProtocol />
+			<OperationalStructure />
+			<LiveMarkets />
 			<Contact />
 		</>
 	);
