@@ -10,14 +10,17 @@ export const COMPANY = {
 	name: 'USDU Finance',
 	location: 'Switzerland',
 	tagline: 'Decentralized Finance for the USDU Protocol',
-	description: 'Access advanced DeFi strategies and yield optimization with USDU, the next generation stablecoin protocol.'
+	description:
+		'Access advanced DeFi strategies and yield optimization with USDU, the next generation stablecoin protocol.',
 };
 
 // Social links
 export const SOCIAL = {
-	Github_user: 'https://github.com/usdu-finance',
-	Twitter: 'https://twitter.com/usdu_finance',
-	Telegram: 'https://t.me/usdu_finance',
+	Github_user: 'https://github.com/USDU-Core',
+	Twitter: 'https://x.com/USDUfinance',
+	Telegram: 'https://t.me/usdu-finance',
+	Defillama: 'https://defillama.com/stablecoin/usdu-finance',
+	Coingecko: 'https://www.coingecko.com/en/coins/usdu-finance',
 };
 
 // Environment variables
