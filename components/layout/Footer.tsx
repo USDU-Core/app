@@ -10,6 +10,7 @@ import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { SOCIAL, PROJECT } from '@/lib/constants';
 import Image from 'next/image';
+import packageInfo from '../../package.json';
 
 interface FooterItemProps {
 	link: string;
@@ -35,7 +36,7 @@ export function FooterItem({
 				rel="noopener noreferrer"
 				className={className}>
 				<FontAwesomeIcon icon={icon} className="w-4 h-4" />
-				<span className="hidden sm:inline">{text}</span>
+				<span className="sm:inline">{text}</span>
 			</a>
 		);
 	}
@@ -43,7 +44,7 @@ export function FooterItem({
 	return (
 		<Link href={link} className={className}>
 			<FontAwesomeIcon icon={icon} className="w-4 h-4" />
-			<span className="hidden sm:inline">{text}</span>
+			<span className="sm:inline">{text}</span>
 		</Link>
 	);
 }
@@ -84,48 +85,18 @@ export default function Footer() {
 						</h3>
 						<ul className="space-y-4">
 							<li>
-								<Link
-									href="/maturities"
-									className="text-text-secondary hover:text-usdu-orange transition-colors text-sm">
-									Maturities
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/transparency"
-									className="text-text-secondary hover:text-usdu-orange transition-colors text-sm">
-									Transparency
-								</Link>
-							</li>
-							<li>
 								<a
-									href={SOCIAL.Aragon}
+									href={SOCIAL.Etherscan}
 									target="_blank"
 									rel="noopener noreferrer"
 									className="inline-flex items-center gap-1 text-text-secondary hover:text-usdu-orange transition-colors text-sm">
-									Governance
+									Etherscan
 									<FontAwesomeIcon
 										icon={faExternalLinkAlt}
 										className="w-3 h-3"
 									/>
 								</a>
 							</li>
-							<li>
-								<Link
-									href="/dashboard"
-									className="text-text-secondary hover:text-usdu-orange transition-colors text-sm">
-									Dashboard
-								</Link>
-							</li>
-						</ul>
-					</div>
-
-					{/* Resources */}
-					<div>
-						<h3 className="text-usdu-black font-semibold mb-6">
-							Resources
-						</h3>
-						<ul className="space-y-4">
 							<li>
 								<a
 									href={SOCIAL.Coingecko}
@@ -153,18 +124,17 @@ export default function Footer() {
 								</a>
 							</li>
 							<li>
-								<Link
-									href="/legal/privacy"
-									className="text-text-secondary hover:text-usdu-orange transition-colors text-sm">
-									Privacy Policy
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/legal/terms"
-									className="text-text-secondary hover:text-usdu-orange transition-colors text-sm">
-									Terms of Service
-								</Link>
+								<a
+									href={SOCIAL.Aragon}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="inline-flex items-center gap-1 text-text-secondary hover:text-usdu-orange transition-colors text-sm">
+									Governance
+									<FontAwesomeIcon
+										icon={faExternalLinkAlt}
+										className="w-3 h-3"
+									/>
+								</a>
 							</li>
 						</ul>
 					</div>
@@ -198,6 +168,36 @@ export default function Footer() {
 							</li>
 						</ul>
 					</div>
+
+					{/* Resources */}
+					<div>
+						<h3 className="text-usdu-black font-semibold mb-6">
+							Resources
+						</h3>
+						<ul className="space-y-4">
+							<li>
+								<Link
+									href="/legal/disclaimer"
+									className="text-text-secondary hover:text-usdu-orange transition-colors text-sm">
+									Risk Disclaimer
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="/legal/privacy"
+									className="text-text-secondary hover:text-usdu-orange transition-colors text-sm">
+									Privacy Policy
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="/legal/terms"
+									className="text-text-secondary hover:text-usdu-orange transition-colors text-sm">
+									Terms of Service
+								</Link>
+							</li>
+						</ul>
+					</div>
 				</div>
 
 				{/* Bottom Bar */}
@@ -207,13 +207,8 @@ export default function Footer() {
 					</div>
 
 					<div className="flex items-center gap-6">
-						<Link
-							href="/legal/disclaimer"
-							className="text-text-secondary hover:text-usdu-orange transition-colors text-sm">
-							Risk Disclaimer
-						</Link>
 						<div className="text-text-secondary text-xs">
-							Protocol Version 1.0
+							Application Version {packageInfo.version}
 						</div>
 					</div>
 				</div>

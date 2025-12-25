@@ -23,6 +23,8 @@ export const SOCIAL = {
 	Defillama: 'https://defillama.com/stablecoin/usdu-finance',
 	Coingecko: 'https://www.coingecko.com/en/coins/usdu-finance',
 	Aragon: 'https://app.aragon.org/dao/ethereum-mainnet/usdu.dao.eth/dashboard',
+	Etherscan:
+		'https://etherscan.io/token/0xdde3eC717f220Fc6A29D6a4Be73F91DA5b718e55',
 };
 
 // Environment variables

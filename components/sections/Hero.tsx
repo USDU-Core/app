@@ -95,7 +95,7 @@ export default function Hero() {
 								/>
 							}
 							className="bg-usdu-orange hover:bg-opacity-90 text-white shadow-lg">
-							Launch App
+							Provide Liquidity
 						</Button>
 						<Button
 							variant="outline"

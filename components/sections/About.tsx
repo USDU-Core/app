@@ -157,60 +157,98 @@ export default function About() {
 						<h3 className="text-3xl font-bold text-usdu-black mb-4">
 							Operational Structure
 						</h3>
-						<p className="text-lg text-text-secondary max-w-3xl mx-auto">
-							Three core pillars ensure USDU's stability,
-							transparency, and utility in institutional finance.
+						<p className="text-lg text-text-secondary max-w-4xl mx-auto">
+							USDU operates through a modular adapter system that
+							separates issuance, collateral custody, and
+							liquidity management.
 						</p>
 					</div>
 
-					<div className="grid md:grid-cols-3 gap-8">
-						{[
-							{
-								title: 'Circulating Supply',
-								description:
-									'Transparent supply metrics with real-time monitoring of issued and circulating USDU tokens.',
-								image: '/assets/circulating-supply-icon-768x222.png',
-							},
-							{
-								title: 'Liquidity & DEX',
-								description:
-									'Deep liquidity across major DEXs ensuring efficient price discovery and low slippage.',
-								image: '/assets/liquidity-dex-icon-768x224.png',
-							},
-							{
-								title: 'Security Framework',
-								description:
-									'Multi-layered security with audited smart contracts and institutional-grade risk controls.',
-								image: '/assets/safebg2-768x223.png',
-							},
-						].map((item, index) => (
-							<motion.div
-								key={item.title}
-								initial={{ opacity: 0, y: 30 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								transition={{
-									duration: 0.6,
-									delay: index * 0.1,
-								}}
-								viewport={{ once: true }}
-								className="bg-usdu-black p-6 rounded-xl border border-gray-700 text-center">
-								<h4 className="text-lg font-bold text-white mb-3">
-									{item.title}
-								</h4>
-								<p className="text-gray-300 text-sm mb-6">
-									{item.description}
-								</p>
-								<div className="mt-auto">
+					<div className="grid lg:grid-cols-2 gap-12 items-start max-w-7xl mx-auto">
+						{/* Left Column - Three Operational Items */}
+						<div className="space-y-8">
+							{[
+								{
+									title: 'ISSUANCE',
+									description:
+										'USDU is issued only by the protocol through DAO-approved adapters.',
+									image: '/assets/issuance-icon-300x300.png',
+								},
+								{
+									title: 'BACKING',
+									description:
+										'Each adapter holds vault assets or liquidity as direct on-chain backing.',
+									image: '/assets/backing-icon-300x300.png',
+								},
+								{
+									title: 'LIQUIDITY',
+									description:
+										'USDU is traded and converted via the USDC/USDU pool and approved lending venues.',
+									image: '/assets/liquidity-icon-300x300.png',
+								},
+							].map((item, index) => (
+								<motion.div
+									key={item.title}
+									initial={{ opacity: 0, x: -30 }}
+									whileInView={{ opacity: 1, x: 0 }}
+									transition={{
+										duration: 0.6,
+										delay: index * 0.2,
+									}}
+									viewport={{ once: true }}
+									className="flex items-start gap-6 bg-usdu-card p-6 rounded-xl border border-usdu-surface">
+									{/* Icon */}
+									<div className="flex-shrink-0">
+										<Image
+											src={item.image}
+											alt={item.title}
+											width={64}
+											height={64}
+											className="w-full h-full rounded-xl"
+										/>
+									</div>
+
+									{/* Content */}
+									<div className="flex-1">
+										<h4 className="text-xl font-bold text-usdu-black mb-3">
+											{item.title}
+										</h4>
+										<p className="text-text-secondary leading-relaxed">
+											{item.description}
+										</p>
+									</div>
+								</motion.div>
+							))}
+						</div>
+
+						{/* Right Column - Adapter System Overview */}
+						<motion.div
+							initial={{ opacity: 0, x: 30 }}
+							whileInView={{ opacity: 1, x: 0 }}
+							transition={{ duration: 0.6, delay: 0.2 }}
+							viewport={{ once: true }}
+							className="lg:sticky lg:top-8">
+							<div className="bg-usdu-bg p-8 pt-0 rounded-2xl">
+								<div className="text-center mb-6">
+									<h4 className="text-xl font-bold text-usdu-black mb-2">
+										Adapter System Overview
+									</h4>
+									<p className="text-text-secondary text-sm">
+										Modular architecture ensuring
+										scalability and security
+									</p>
+								</div>
+								<div className="relative">
 									<Image
-										src={item.image}
-										alt={item.title}
-										width={200}
-										height={100}
-										className="w-full h-20 object-contain"
+										src="/assets/adapter-system-graphic-all-adapters-1536x1136.png"
+										alt="USDU Adapter System Overview"
+										width={600}
+										height={450}
+										className="w-full h-auto object-contain rounded-lg"
 									/>
 								</div>
-							</motion.div>
-						))}
+							</div>
+						</motion.div>
 					</div>
 				</motion.div>
 			</div>
