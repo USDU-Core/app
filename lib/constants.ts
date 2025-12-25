@@ -5,13 +5,14 @@ export const APP_DESCRIPTION =
 export const APP_URL =
 	process.env.NEXT_PUBLIC_APP_URL || 'https://usdu.finance';
 
-// Company information
-export const COMPANY = {
+// Project information
+export const PROJECT = {
 	name: 'USDU Finance',
-	location: 'Switzerland',
-	tagline: 'Decentralized Finance for the USDU Protocol',
+	blockchains: ['Ethereum', 'Base'],
+	tagline: 'Low-Cost Stable Funding for On-Chain Credit',
 	description:
-		'Access advanced DeFi strategies and yield optimization with USDU, the next generation stablecoin protocol.',
+		'Protocol-issued, non-algorithmic stablecoin offering ~4-6% fixed-term funding for structured finance and credit markets. Fully convertible to USDC on-chain.',
+	logo: '/assets/usdu-full-text-1024x346.png',
 };
 
 // Social links
@@ -21,6 +22,7 @@ export const SOCIAL = {
 	Telegram: 'https://t.me/usdu-finance',
 	Defillama: 'https://defillama.com/stablecoin/usdu-finance',
 	Coingecko: 'https://www.coingecko.com/en/coins/usdu-finance',
+	Aragon: 'https://app.aragon.org/dao/ethereum-mainnet/usdu.dao.eth/dashboard',
 };
 
 // Environment variables

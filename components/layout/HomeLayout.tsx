@@ -2,124 +2,176 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faArrowUpRightFromSquare,
-  faBars,
-  faTimes,
-  faCoins,
+	faArrowUpRightFromSquare,
+	faBars,
+	faTimes,
 } from '@fortawesome/free-solid-svg-icons';
-import { COMPANY } from '@/lib/constants';
+import { PROJECT, SOCIAL } from '@/lib/constants';
 import Footer from './Footer';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import Image from 'next/image';
 
 interface NavigationItem {
-  name: string;
-  href: string;
-  icon?: IconProp;
+	name: string;
+	href: string;
+	icon?: IconProp;
+	external?: boolean;
 }
 
 const navigation: NavigationItem[] = [
-  { name: 'About', href: '/#about' },
-  { name: 'Features', href: '/#features' },
-  { name: 'Contact', href: '/#contact' },
+	{ name: 'Maturities', href: '/maturities' },
+	{ name: 'Transparency', href: '/transparency' },
+	{ name: 'Governance', href: SOCIAL.Aragon, external: true },
 ];
 
 interface HomeLayoutProps {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }
 
 export default function HomeLayout({ children }: HomeLayoutProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+	const toggleMobileMenu = () => {
+		setIsMobileMenuOpen(!isMobileMenuOpen);
+	};
 
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
+	const closeMobileMenu = () => {
+		setIsMobileMenuOpen(false);
+	};
 
-  return (
-    <div className="min-h-screen bg-dark-bg text-text-primary">
-      {/* Home Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-dark-card border-b border-dark-surface">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center gap-4">
-              <div className="w-8 h-8 bg-accent-orange rounded-lg flex items-center justify-center">
-                <FontAwesomeIcon icon={faCoins} className="w-4 h-4 text-white" />
-              </div>
-              <Link href="/" className="text-xl font-bold text-white">
-                {COMPANY.name.split(' ')[0]}
-                <span className="text-accent-orange">.</span>
-              </Link>
-            </div>
+	return (
+		<div className="min-h-screen bg-usdu-bg text-text-primary">
+			{/* Home Header */}
+			<header className="fixed top-0 left-0 right-0 z-50 bg-usdu-card border-b border-usdu-surface">
+				<div className="container mx-auto px-4 py-4">
+					<div className="flex items-center justify-between">
+						{/* Logo */}
+						<div className="flex items-center gap-4">
+							<Link href="/">
+								<Image
+									src={'/assets/usdu-full-text-1024x346.png'}
+									alt={PROJECT.name.split(' ')[0]}
+									width={100}
+									height={100}
+									className="w-full h-auto object-contain"
+								/>
+							</Link>
+						</div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              {navigation.map(item => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="flex items-center gap-2 text-text-secondary hover:text-accent-orange transition-colors text-sm uppercase tracking-wide"
-                >
-                  {item.icon && <FontAwesomeIcon icon={item.icon} className="w-4 h-4" />}
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
+						{/* Desktop Navigation */}
+						<nav className="hidden md:flex items-center space-x-8">
+							{navigation.map((item) =>
+								item.external ? (
+									<a
+										key={item.name}
+										href={item.href}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="flex items-center gap-2 text-text-secondary hover:text-usdu-orange transition-colors text-sm font-medium">
+										{item.icon && (
+											<FontAwesomeIcon
+												icon={item.icon}
+												className="w-4 h-4"
+											/>
+										)}
+										{item.name}
+									</a>
+								) : (
+									<Link
+										key={item.name}
+										href={item.href}
+										className="flex items-center gap-2 text-text-secondary hover:text-usdu-orange transition-colors text-sm font-medium">
+										{item.icon && (
+											<FontAwesomeIcon
+												icon={item.icon}
+												className="w-4 h-4"
+											/>
+										)}
+										{item.name}
+									</Link>
+								)
+							)}
+						</nav>
 
-            {/* Desktop CTA Button */}
-            <div className="hidden md:flex items-center gap-4">
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center gap-2 bg-accent-orange text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium"
-              >
-                Launch App
-                <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-3 h-3" />
-              </Link>
-            </div>
+						{/* Desktop CTA Button */}
+						<div className="hidden md:flex items-center gap-4">
+							<Link
+								href="/dashboard"
+								className="inline-flex items-center gap-2 bg-usdu-orange text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium">
+								Launch App
+								<FontAwesomeIcon
+									icon={faArrowUpRightFromSquare}
+									className="w-3 h-3"
+								/>
+							</Link>
+						</div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={toggleMobileMenu}
-              className="md:hidden p-2 text-text-secondary hover:text-accent-orange transition-colors"
-            >
-              <FontAwesomeIcon icon={isMobileMenuOpen ? faTimes : faBars} className="w-5 h-5" />
-            </button>
-          </div>
+						{/* Mobile Menu Button */}
+						<button
+							onClick={toggleMobileMenu}
+							className="md:hidden p-2 text-text-secondary hover:text-usdu-orange transition-colors">
+							<FontAwesomeIcon
+								icon={isMobileMenuOpen ? faTimes : faBars}
+								className="w-5 h-5"
+							/>
+						</button>
+					</div>
 
-          {/* Mobile Navigation */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden mt-4 pb-4 border-t border-dark-surface pt-4">
-              <nav className="space-y-4">
-                {navigation.map(item => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="flex items-center gap-3 text-text-secondary hover:text-accent-orange transition-colors text-sm uppercase tracking-wide"
-                    onClick={closeMobileMenu}
-                  >
-                    {item.icon && <FontAwesomeIcon icon={item.icon} className="w-4 h-4" />}
-                    {item.name}
-                  </Link>
-                ))}
-                <Link
-                  href="/dashboard"
-                  className="inline-flex items-center gap-2 bg-accent-orange text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium"
-                  onClick={closeMobileMenu}
-                >
-                  Launch App
-                  <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-3 h-3" />
-                </Link>
-              </nav>
-            </div>
-          )}
-        </div>
-      </header>
+					{/* Mobile Navigation */}
+					{isMobileMenuOpen && (
+						<div className="md:hidden mt-4 pb-4 border-t border-usdu-surface pt-4">
+							<nav className="space-y-4">
+								{navigation.map((item) =>
+									item.external ? (
+										<a
+											key={item.name}
+											href={item.href}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="flex items-center gap-3 text-text-secondary hover:text-usdu-orange transition-colors text-sm font-medium"
+											onClick={closeMobileMenu}>
+											{item.icon && (
+												<FontAwesomeIcon
+													icon={item.icon}
+													className="w-4 h-4"
+												/>
+											)}
+											{item.name}
+										</a>
+									) : (
+										<Link
+											key={item.name}
+											href={item.href}
+											className="flex items-center gap-3 text-text-secondary hover:text-usdu-orange transition-colors text-sm font-medium"
+											onClick={closeMobileMenu}>
+											{item.icon && (
+												<FontAwesomeIcon
+													icon={item.icon}
+													className="w-4 h-4"
+												/>
+											)}
+											{item.name}
+										</Link>
+									)
+								)}
+								<Link
+									href="/dashboard"
+									className="inline-flex items-center gap-2 bg-usdu-orange text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium"
+									onClick={closeMobileMenu}>
+									Launch App
+									<FontAwesomeIcon
+										icon={faArrowUpRightFromSquare}
+										className="w-3 h-3"
+									/>
+								</Link>
+							</nav>
+						</div>
+					)}
+				</div>
+			</header>
 
-      <main className="">{children}</main>
-      <Footer />
-    </div>
-  );
+			<main className="">{children}</main>
+			<Footer />
+		</div>
+	);
 }

@@ -15,12 +15,12 @@ const Button: React.FC<ButtonProps> = ({
   loading = false,
   icon,
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent-orange focus:ring-offset-2 focus:ring-offset-dark-bg disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-usdu-orange focus:ring-offset-2 focus:ring-offset-usdu-bg disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variants = {
-    primary: 'bg-accent-orange text-white hover:bg-opacity-90 shadow-md hover:shadow-lg',
-    secondary: 'bg-dark-card text-text-primary hover:bg-opacity-80 border border-text-muted',
-    outline: 'border border-accent-orange text-accent-orange hover:bg-accent-orange hover:text-white',
+    primary: 'bg-usdu-orange text-white hover:bg-opacity-90 shadow-md hover:shadow-lg',
+    secondary: 'bg-usdu-card text-text-primary hover:bg-opacity-80 border border-usdu-surface',
+    outline: 'border border-usdu-orange text-usdu-orange hover:bg-usdu-orange hover:text-white',
   };
 
   const sizes = {

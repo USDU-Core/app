@@ -13,22 +13,29 @@ module.exports = {
         'avenir': ['Avenir', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Dark theme colors based on project specifications
+        // USDU theme colors based on usdu.finance
+        'usdu-bg': '#f2f0ec',
+        'usdu-card': '#ffffff',
+        'usdu-surface': '#e8e6e4',
+        'usdu-orange': '#f16325',
+        'usdu-black': '#0c0c0c',
+        'usdu-gray': '#6b7280',
+        'text-primary': '#0c0c0c',
+        'text-secondary': '#374151',
+        'text-muted': '#6b7280',
+        
+        // Legacy dark theme (for dashboard)
         'dark-bg': '#1a1a1a',
         'dark-card': '#2a2a2a',
         'dark-surface': '#1f1f1f',
-        'accent-orange': '#ff6b35',
-        'accent-gold': '#ffd700',
-        'text-primary': '#ffffff',
-        'text-secondary': '#a0a0a0',
-        'text-muted': '#666666',
+        'accent-orange': '#f16325',
         
         // Gradient colors
         'gradient': {
-          'dark-start': '#1a1a1a',
-          'dark-end': '#2d1b1b',
-          'card-start': '#2a2a2a',
-          'card-end': '#3a2a2a',
+          'light-start': '#f2f0ec',
+          'light-end': '#e8e6e4',
+          'card-start': '#ffffff',
+          'card-end': '#f9fafb',
         }
       },
       backgroundImage: {
