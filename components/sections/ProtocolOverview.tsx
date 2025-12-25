@@ -7,6 +7,8 @@ import {
 	faChartLine,
 	faUsers,
 } from '@fortawesome/free-solid-svg-icons';
+import { useProtocolData } from '@/hooks/useProtocolData';
+import { formatValueWithState, formatPriceWithState } from '@/lib/utils';
 
 const features = [
 	{
@@ -36,6 +38,9 @@ const features = [
 ];
 
 export default function ProtocolOverview() {
+	const { usduSupply, dexLiquidity, usduPrice, isLoading, error } =
+		useProtocolData();
+
 	return (
 		<section className="py-20 bg-usdu-card">
 			<div className="container mx-auto px-4">
@@ -91,7 +96,13 @@ export default function ProtocolOverview() {
 					<div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
 						<div>
 							<div className="text-2xl font-bold text-usdu-card mb-2">
-								$12.5M+
+								{formatValueWithState(
+									usduSupply,
+									isLoading,
+									error,
+									'$',
+									''
+								)}
 							</div>
 							<div className="text-sm text-usdu-card">
 								USDU Supply
@@ -99,7 +110,13 @@ export default function ProtocolOverview() {
 						</div>
 						<div>
 							<div className="text-2xl font-bold text-usdu-card mb-2">
-								$1.7M+
+								{formatValueWithState(
+									dexLiquidity,
+									isLoading,
+									error,
+									'$',
+									''
+								)}
 							</div>
 							<div className="text-sm text-usdu-card">
 								DEX Liquidity
@@ -107,7 +124,12 @@ export default function ProtocolOverview() {
 						</div>
 						<div>
 							<div className="text-2xl font-bold text-usdu-card mb-2">
-								$1.001
+								{formatPriceWithState(
+									usduPrice,
+									isLoading,
+									error,
+									6
+								)}
 							</div>
 							<div className="text-sm text-usdu-card">
 								USDU Price

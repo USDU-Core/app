@@ -46,3 +46,54 @@ export async function copyToClipboard(text: string): Promise<boolean> {
     return false
   }
 }
+
+// Format large numbers with K/M suffixes
+export function formatValue(value: string | null, prefix: string = '$', suffix: string = ''): string {
+  if (!value) return '...';
+  
+  const num = parseFloat(value);
+  if (isNaN(num)) return 'Error';
+  
+  if (num >= 1e6) {
+    return `${prefix}${(num / 1e6).toFixed(1)}M${suffix}`;
+  } else if (num >= 1e3) {
+    return `${prefix}${(num / 1e3).toFixed(1)}K${suffix}`;
+  } else {
+    return `${prefix}${num.toFixed(2)}${suffix}`;
+  }
+}
+
+// Format price values with specific decimal precision
+export function formatPrice(value: string | null, decimals: number = 3): string {
+  if (!value) return '...';
+  
+  const num = parseFloat(value);
+  if (isNaN(num)) return 'Error';
+  
+  return `$${num.toFixed(decimals)}`;
+}
+
+// Format values with loading and error state handling
+export function formatValueWithState(
+  value: string | null,
+  isLoading: boolean,
+  error: string | null,
+  prefix: string = '$',
+  suffix: string = ''
+): string {
+  if (isLoading) return '...';
+  if (error) return 'Error';
+  return formatValue(value, prefix, suffix);
+}
+
+// Format prices with loading and error state handling
+export function formatPriceWithState(
+  value: string | null,
+  isLoading: boolean,
+  error: string | null,
+  decimals: number = 3
+): string {
+  if (isLoading) return '...';
+  if (error) return 'Error';
+  return formatPrice(value, decimals);
+}
