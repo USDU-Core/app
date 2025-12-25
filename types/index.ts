@@ -50,4 +50,7 @@ export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'outline'
   size?: 'sm' | 'md' | 'lg'
   className?: string
+  href?: string
+  target?: string
+  icon?: React.ReactNode
 }

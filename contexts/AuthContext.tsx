@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react'
-import { useAppKitAccount } from '@reown/appkit-controllers/react'
+import { useAppKitAccount } from '@reown/appkit/react'
 
 // Basic auth state for now
 interface AuthState {

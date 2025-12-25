@@ -5,13 +5,13 @@ import storage from 'redux-persist/lib/storage';
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 
 // slices
-import { transactionQueueReducer } from './slices/transactionQueue.slice';
+import { appReducer } from './slices/app.slice';
 // transforms
 import { bigIntTransform } from './transforms/bigint.transform';
 
 // Combine reducers
 const rootReducer = combineReducers({
-	transactionQueue: transactionQueueReducer,
+	app: appReducer,
 });
 
 // Redux Persist configuration
@@ -19,8 +19,8 @@ const persistConfig = {
 	key: 'usdu_finance_redux_store',
 	version: 1,
 	storage,
-	// Only persist the transaction queue
-	whitelist: ['transactionQueue'],
+	// Persist app preferences and notifications
+	whitelist: ['app'],
 	// Add BigInt transform
 	transforms: [bigIntTransform],
 };

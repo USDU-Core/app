@@ -59,8 +59,8 @@ export const bigIntTransform = createTransform(
   (outboundState: any) => {
     return deserializeBigInt(outboundState);
   },
-  // Apply to transactionQueue only
-  { whitelist: ['transactionQueue'] }
+  // Apply to app reducer
+  { whitelist: ['app'] }
 );
 
 // Export helper functions for use in other places
