@@ -24,10 +24,15 @@ createAppKit({
 	features: {
 		analytics: true,
 	},
-	themeMode: 'dark',
+	themeMode: 'light',
 	themeVariables: {
-		'--w3m-color-mix': '#000000',
-		'--w3m-color-mix-strength': 40,
+		'--w3m-color-mix': '#f2f0ec',
+		'--w3m-color-mix-strength': 20,
+		'--w3m-accent': '#f16325',
+		'--w3m-background': '#ffffff',
+		'--w3m-foreground': '#f2f0ec',
+		'--w3m-border-radius-master': '12px',
+		'--w3m-font-family': 'Avenir, system-ui, sans-serif',
 	},
 });
 

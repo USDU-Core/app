@@ -60,7 +60,7 @@ const marketsAndIntegrations = [
 		title: 'Morpho Markets',
 		description:
 			'On-chain credit markets for dynamic USDU borrowing and deployment.',
-		url: '#',
+		url: 'https://app.morpho.org/ethereum/vault/0xcE22b5Fb17ccbc0C5d87DC2e0dF47DD71E3AdC0a/usdu-core',
 		logo: '/assets/morpho-market-icon-150x150.png',
 		buttonText: 'View Markets',
 	},
@@ -68,7 +68,7 @@ const marketsAndIntegrations = [
 		title: 'TermMax Fixed-Term',
 		description:
 			'Fixed-maturity lending venue for predictable USDU funding.',
-		url: '#',
+		url: 'https://app.termmax.ts.finance/borrow?search=usdu',
 		logo: '/assets/termmax-icon-150x150.png',
 		buttonText: 'Borrow',
 	},
@@ -76,7 +76,7 @@ const marketsAndIntegrations = [
 		title: 'Provide Liquidity',
 		description:
 			'Primary liquidity pool for USDU conversion and market depth.',
-		url: '/dashboard',
+		url: 'https://www.curve.finance/dex/ethereum/pools/factory-stable-ng-596/deposit',
 		logo: '/assets/curve-icon-150x150.png',
 		buttonText: 'Provide LP',
 		darkCard: true,
@@ -85,7 +85,7 @@ const marketsAndIntegrations = [
 		title: 'Curve Liquidity Layer',
 		description:
 			'Primary on-chain liquidity venue for USDU ↔ USDC conversion.',
-		url: '#',
+		url: 'https://www.curve.finance/dex/ethereum/pools/factory-stable-ng-596/swap',
 		logo: '/assets/curve-icon-150x150.png',
 		buttonText: 'Swap',
 	},
@@ -159,7 +159,7 @@ export default function About() {
 										<li
 											key={index}
 											className="flex items-start gap-3">
-											<div className="w-2 h-2 bg-usdu-orange rounded-full mt-2 flex-shrink-0" />
+											<div className="w-2 h-2 bg-usdu-black rounded-full mt-2 flex-shrink-0" />
 											<span className="text-text-secondary">
 												{feature}
 											</span>

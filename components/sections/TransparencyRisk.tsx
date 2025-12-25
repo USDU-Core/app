@@ -75,10 +75,10 @@ export default function TransparencyRisk() {
 							transition={{ duration: 0.6, delay: index * 0.1 }}
 							viewport={{ once: true }}
 							className="bg-usdu-bg p-6 rounded-xl border border-usdu-surface hover:shadow-lg transition-shadow">
-							<div className="w-12 h-12 bg-usdu-orange/10 rounded-lg flex items-center justify-center mb-4">
+							<div className="w-12 h-12 bg-usdu-black rounded-lg flex items-center justify-center mb-4">
 								<FontAwesomeIcon
 									icon={feature.icon}
-									className="w-6 h-6 text-usdu-orange"
+									className="w-6 h-6 text-usdu-card"
 								/>
 							</div>
 							<h3 className="text-lg font-semibold text-usdu-black mb-3">
@@ -92,7 +92,7 @@ export default function TransparencyRisk() {
 				</div>
 
 				{/* Risk Metrics Dashboard */}
-				<motion.div
+				{/* <motion.div
 					initial={{ opacity: 0, y: 30 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6, delay: 0.2 }}
@@ -123,7 +123,7 @@ export default function TransparencyRisk() {
 							</div>
 						))}
 					</div>
-				</motion.div>
+				</motion.div> */}
 
 				{/* Governance & Compliance */}
 				<motion.div

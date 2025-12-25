@@ -65,10 +65,10 @@ export default function ProtocolOverview() {
 							transition={{ duration: 0.6, delay: index * 0.1 }}
 							viewport={{ once: true }}
 							className="bg-usdu-bg p-6 rounded-xl border border-usdu-surface hover:shadow-lg transition-shadow">
-							<div className="w-12 h-12 bg-usdu-orange/10 rounded-lg flex items-center justify-center mb-4">
+							<div className="w-12 h-12 bg-usdu-black rounded-lg flex items-center justify-center mb-4">
 								<FontAwesomeIcon
 									icon={feature.icon}
-									className="w-6 h-6 text-usdu-orange"
+									className="w-6 h-6 text-usdu-card"
 								/>
 							</div>
 							<h3 className="text-lg font-semibold text-usdu-black mb-3">
@@ -87,37 +87,37 @@ export default function ProtocolOverview() {
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6, delay: 0.4 }}
 					viewport={{ once: true }}
-					className="mt-16 bg-gradient-to-r from-usdu-orange/5 to-usdu-orange/10 rounded-2xl p-8">
+					className="mt-16 bg-usdu-black rounded-2xl p-8">
 					<div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
 						<div>
-							<div className="text-2xl font-bold text-usdu-orange mb-2">
+							<div className="text-2xl font-bold text-usdu-card mb-2">
 								$12.5M+
 							</div>
-							<div className="text-sm text-text-secondary">
+							<div className="text-sm text-usdu-card">
 								USDU Supply
 							</div>
 						</div>
 						<div>
-							<div className="text-2xl font-bold text-usdu-orange mb-2">
+							<div className="text-2xl font-bold text-usdu-card mb-2">
 								$1.7M+
 							</div>
-							<div className="text-sm text-text-secondary">
+							<div className="text-sm text-usdu-card">
 								DEX Liquidity
 							</div>
 						</div>
 						<div>
-							<div className="text-2xl font-bold text-usdu-orange mb-2">
+							<div className="text-2xl font-bold text-usdu-card mb-2">
 								$1.001
 							</div>
-							<div className="text-sm text-text-secondary">
+							<div className="text-sm text-usdu-card">
 								USDU Price
 							</div>
 						</div>
 						<div>
-							<div className="text-2xl font-bold text-usdu-orange mb-2">
+							<div className="text-2xl font-bold text-usdu-card mb-2">
 								4
 							</div>
-							<div className="text-sm text-text-secondary">
+							<div className="text-sm text-usdu-card">
 								Protocol Adapters
 							</div>
 						</div>

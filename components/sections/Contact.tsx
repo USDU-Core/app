@@ -67,10 +67,10 @@ export default function Contact() {
 							transition={{ duration: 0.6, delay: index * 0.1 }}
 							viewport={{ once: true }}
 							className="bg-usdu-bg p-8 rounded-xl border border-usdu-surface hover:shadow-lg transition-shadow group">
-							<div className="w-16 h-16 bg-usdu-orange/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-usdu-orange/20 transition-colors">
+							<div className="w-16 h-16 bg-usdu-black rounded-xl flex items-center justify-center mb-6 transition-colors">
 								<FontAwesomeIcon
 									icon={link.icon}
-									className="w-8 h-8 text-usdu-orange"
+									className="w-8 h-8 text-usdu-card"
 								/>
 							</div>
 							<h3 className="text-xl font-bold text-usdu-black mb-4">

@@ -51,8 +51,8 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 								<Image
 									src={'/assets/usdu-full-text-1024x346.png'}
 									alt={PROJECT.name.split(' ')[0]}
-									width={100}
-									height={100}
+									width={80}
+									height={80}
 									className="w-full h-auto object-contain"
 								/>
 							</Link>

@@ -54,7 +54,7 @@ export default function Hero() {
 						transition={{ duration: 0.8, delay: 0.6 }}
 						className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
 						<div className="bg-usdu-card p-6 rounded-xl border border-usdu-surface shadow-sm">
-							<div className="text-2xl font-bold text-usdu-orange mb-2">
+							<div className="text-2xl font-bold text-usdu-black mb-2">
 								4-6%
 							</div>
 							<div className="text-sm text-text-secondary">
@@ -62,7 +62,7 @@ export default function Hero() {
 							</div>
 						</div>
 						<div className="bg-usdu-card p-6 rounded-xl border border-usdu-surface shadow-sm">
-							<div className="text-2xl font-bold text-usdu-orange mb-2">
+							<div className="text-2xl font-bold text-usdu-black mb-2">
 								Non-Algo
 							</div>
 							<div className="text-sm text-text-secondary">
@@ -70,7 +70,7 @@ export default function Hero() {
 							</div>
 						</div>
 						<div className="bg-usdu-card p-6 rounded-xl border border-usdu-surface shadow-sm">
-							<div className="text-2xl font-bold text-usdu-orange mb-2">
+							<div className="text-2xl font-bold text-usdu-black mb-2">
 								USDC
 							</div>
 							<div className="text-sm text-text-secondary">
@@ -101,7 +101,7 @@ export default function Hero() {
 							variant="outline"
 							size="lg"
 							href="/transparency"
-							className="border-usdu-orange text-usdu-orange hover:bg-usdu-orange hover:text-white">
+							className="border-usdu-black text-black hover:bg-usdu-orange hover:text-white">
 							View Transparency
 						</Button>
 					</motion.div>
