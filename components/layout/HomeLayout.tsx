@@ -171,6 +171,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 			</header>
 
 			<main className="">{children}</main>
+
 			<Footer />
 		</div>
 	);
