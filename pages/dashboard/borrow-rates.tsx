@@ -1,7 +1,88 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPercentage } from '@fortawesome/free-solid-svg-icons';
+import { useUSDUTermMaxMarkets } from '@/hooks/useTermMaxMarkets';
+import Tabs, { Tab } from '@/components/ui/Tabs';
+import { useState, useEffect } from 'react';
 
 export default function BorrowRatesPage() {
+	const { markets, isLoading, error } = useUSDUTermMaxMarkets();
+	const [selectedCollateralIndex, setSelectedCollateralIndex] = useState(0);
+	const [selectedMaturityIndex, setSelectedMaturityIndex] = useState(0);
+
+	// Get unique collaterals from markets
+	const uniqueCollaterals = markets.reduce(
+		(acc, market) => {
+			if (
+				market.collateral &&
+				!acc.find(
+					(c) =>
+						c.contractAddress === market.collateral?.contractAddress
+				)
+			) {
+				acc.push(market.collateral);
+			}
+			return acc;
+		},
+		[] as (typeof markets)[0]['collateral'][]
+	);
+
+	// Filter markets by selected collateral
+	const selectedCollateral = uniqueCollaterals[selectedCollateralIndex];
+	const collateralFilteredMarkets = selectedCollateral
+		? markets.filter(
+				(market) =>
+					market.collateral?.contractAddress ===
+					selectedCollateral.contractAddress
+			)
+		: markets;
+
+	// Get unique maturities for selected collateral
+	const uniqueMaturities = collateralFilteredMarkets.reduce(
+		(acc, market) => {
+			const maturityDate = new Date(market.market.maturity);
+			const maturityKey = maturityDate.toISOString().split('T')[0]; // YYYY-MM-DD format
+
+			if (!acc.find((m) => m.key === maturityKey)) {
+				acc.push({
+					key: maturityKey,
+					date: maturityDate,
+					displayName: maturityDate.toLocaleDateString('en-US', {
+						month: 'short',
+						day: '2-digit',
+						year: 'numeric',
+					}),
+					daysToMaturity: market.daysToMaturity,
+				});
+			}
+			return acc;
+		},
+		[] as Array<{
+			key: string;
+			date: Date;
+			displayName: string;
+			daysToMaturity: number | null;
+		}>
+	);
+
+	// Sort maturities by date
+	uniqueMaturities.sort((a, b) => a.date.getTime() - b.date.getTime());
+
+	// Reset maturity selection when collateral changes
+	useEffect(() => {
+		setSelectedMaturityIndex(0);
+	}, [selectedCollateralIndex]);
+
+	// Filter markets by selected collateral and maturity
+	const selectedMaturity = uniqueMaturities[selectedMaturityIndex];
+	const finalFilteredMarkets = selectedMaturity
+		? collateralFilteredMarkets.filter((market) => {
+				const marketMaturityKey = new Date(market.market.maturity)
+					.toISOString()
+					.split('T')[0];
+				return marketMaturityKey === selectedMaturity.key;
+			})
+		: collateralFilteredMarkets;
+
+	console.log(finalFilteredMarkets[0]);
+
 	return (
 		<div className="space-y-8">
 			{/* Header */}
@@ -10,31 +91,531 @@ export default function BorrowRatesPage() {
 					Borrow Rates
 				</h1>
 				<p className="text-usdu-black">
-					Monitor real-time borrowing rates across different markets and
-					find the best rates for USDU borrowing and lending opportunities.
+					Monitor real-time borrowing rates across different markets
+					and find the best rates for USDU borrowing and lending
+					opportunities.
 				</p>
 			</div>
 
-			{/* Coming Soon Section */}
-			<div className="bg-usdu-bg p-6 rounded-xl border border-usdu-surface">
-				<div className="text-center">
-					<div className="w-16 h-16 bg-usdu-orange/10 rounded-full flex items-center justify-center mx-auto mb-4">
-						<FontAwesomeIcon
-							icon={faPercentage}
-							className="w-8 h-8 text-usdu-orange"
-						/>
-					</div>
-					<h2 className="text-xl font-bold text-usdu-black mb-2">
-						Coming Soon
+			{/* Step 1: Collateral Tabs */}
+			{!isLoading && !error && uniqueCollaterals.length > 0 && (
+				<div>
+					<h2 className="text-xl font-bold text-usdu-black mb-4">
+						Select Collateral
 					</h2>
-					<p className="text-text-secondary">
-						The borrow rates dashboard is being developed to provide
-						you with real-time interest rates across all integrated
-						markets. Compare rates and find optimal borrowing
-						opportunities.
-					</p>
+					<Tabs
+						selectedIndex={selectedCollateralIndex}
+						onSelectionChange={setSelectedCollateralIndex}>
+						{uniqueCollaterals.map((collateral, index) => (
+							<Tab
+								key={collateral?.contractAddress || index}
+								value={collateral}>
+								<div className="flex items-center space-x-2">
+									{collateral?.icon && (
+										<img
+											src={collateral.icon}
+											alt={collateral.symbol}
+											className="w-5 h-5 rounded-full"
+										/>
+									)}
+									<span>
+										{collateral?.symbol || 'Unknown'}
+									</span>
+								</div>
+							</Tab>
+						))}
+					</Tabs>
 				</div>
-			</div>
+			)}
+
+			{/* Step 2: Maturity Tabs */}
+			{!isLoading &&
+				!error &&
+				selectedCollateral &&
+				uniqueMaturities.length > 0 && (
+					<div>
+						<h2 className="text-xl font-bold text-usdu-black mb-4">
+							Select Maturity
+						</h2>
+						<Tabs
+							selectedIndex={selectedMaturityIndex}
+							onSelectionChange={setSelectedMaturityIndex}>
+							{uniqueMaturities.map((maturity, index) => (
+								<Tab key={maturity.key} value={maturity}>
+									<div className="text-center">
+										<div className="font-medium">
+											{maturity.displayName}
+										</div>
+										<div className="text-xs text-text-secondary">
+											{maturity.daysToMaturity !== null &&
+											maturity.daysToMaturity >= 0
+												? `${maturity.daysToMaturity} days`
+												: 'Expired'}
+										</div>
+									</div>
+								</Tab>
+							))}
+						</Tabs>
+					</div>
+				)}
+
+			{/* Market Details */}
+			{!isLoading && !error && selectedCollateral && selectedMaturity && (
+				<div>
+					{finalFilteredMarkets.length === 0 && (
+						<div className="bg-usdu-bg p-6 rounded-xl border border-usdu-surface">
+							<div className="text-center py-8">
+								<p className="text-text-secondary">
+									No markets found for{' '}
+									{selectedCollateral.symbol} with{' '}
+									{selectedMaturity.displayName} maturity
+								</p>
+							</div>
+						</div>
+					)}
+
+					{finalFilteredMarkets.length > 0 && (
+						<div className="space-y-6">
+							{finalFilteredMarkets.map(
+								(termMaxMarket, index) => (
+									<div
+										key={index}
+										className="bg-usdu-bg p-4 sm:p-6 rounded-lg border border-usdu-surface">
+										{/* Market Header */}
+										<div className="border-b border-usdu-surface pb-4 mb-6">
+											<div className="flex flex-wrap items-center gap-2">
+												<h3 className="text-xl font-bold text-usdu-black">
+													{
+														termMaxMarket.market
+															.symbol
+													}
+												</h3>
+												<span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
+													{
+														termMaxMarket.market
+															.version
+													}
+												</span>
+												{termMaxMarket.isExpired && (
+													<span className="bg-red-100 text-red-600 px-2 py-1 rounded text-xs">
+														Expired
+													</span>
+												)}
+											</div>
+										</div>
+
+										{/* Market Details Grid */}
+										<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+											{/* Basic Information */}
+											<div className="space-y-4">
+												<h4 className="font-semibold text-usdu-black border-b border-usdu-surface pb-2">
+													Basic Information
+												</h4>
+												<div className="space-y-3">
+													<div>
+														<p className="text-sm text-text-secondary">
+															Underlying Asset
+														</p>
+														<div className="flex items-center space-x-2 mt-1">
+															{termMaxMarket
+																.underlying
+																?.icon && (
+																<img
+																	src={
+																		termMaxMarket
+																			.underlying
+																			.icon
+																	}
+																	alt={
+																		termMaxMarket
+																			.underlying
+																			.symbol
+																	}
+																	className="w-5 h-5 rounded-full"
+																/>
+															)}
+															<p className="font-medium text-usdu-black">
+																{termMaxMarket
+																	.underlying
+																	?.symbol ||
+																	'Unknown'}
+															</p>
+														</div>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Collateral Asset
+														</p>
+														<div className="flex items-center space-x-2 mt-1">
+															{termMaxMarket
+																.collateral
+																?.icon && (
+																<img
+																	src={
+																		termMaxMarket
+																			.collateral
+																			.icon
+																	}
+																	alt={
+																		termMaxMarket
+																			.collateral
+																			.symbol
+																	}
+																	className="w-5 h-5 rounded-full"
+																/>
+															)}
+															<p className="font-medium text-usdu-black">
+																{termMaxMarket
+																	.collateral
+																	?.symbol ||
+																	'Unknown'}
+															</p>
+														</div>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Maturity
+														</p>
+														<p className="font-medium text-usdu-black">
+															{new Date(
+																termMaxMarket
+																	.market
+																	.maturity
+															).toLocaleDateString(
+																'en-US',
+																{
+																	month: 'short',
+																	day: '2-digit',
+																	year: 'numeric',
+																}
+															)}
+														</p>
+														<p className="text-xs text-text-secondary">
+															{termMaxMarket.daysToMaturity !==
+																null &&
+															termMaxMarket.daysToMaturity >=
+																0
+																? `${termMaxMarket.daysToMaturity} days remaining`
+																: 'Expired'}
+														</p>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Borrow Rate
+														</p>
+														<p className="font-medium text-usdu-black">
+															{termMaxMarket.collection?.sortedOrderStats?.[0]?.borrowApy 
+																? `${(termMaxMarket.collection.sortedOrderStats[0].borrowApy * 100).toFixed(2)}%`
+																: 'N/A'
+															}
+														</p>
+													</div>
+												</div>
+											</div>
+
+											{/* Risk Parameters */}
+											<div className="space-y-4">
+												<h4 className="font-semibold text-usdu-black border-b border-usdu-surface pb-2">
+													Risk Parameters
+												</h4>
+												<div className="space-y-3">
+													<div>
+														<p className="text-sm text-text-secondary">
+															Max LTV
+														</p>
+														<p className="font-medium text-usdu-black">
+															{(
+																parseInt(
+																	termMaxMarket
+																		.market
+																		.maxLtv
+																) / 1000000
+															).toFixed(1)}
+															%
+														</p>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Liquidation LTV
+														</p>
+														<p className="font-medium text-red-600">
+															{(
+																parseInt(
+																	termMaxMarket
+																		.market
+																		.liquidationLtv
+																) / 1000000
+															).toFixed(1)}
+															%
+														</p>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Liquidatable
+														</p>
+														<p
+															className={`font-medium ${termMaxMarket.market.liquidatable ? 'text-red-600' : 'text-green-600'}`}>
+															{termMaxMarket
+																.market
+																.liquidatable
+																? 'Yes'
+																: 'No'}
+														</p>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Liquidation Window
+														</p>
+														<p className="font-medium text-usdu-black">
+															{(
+																termMaxMarket
+																	.market
+																	.liquidationWindowSeconds /
+																3600
+															).toFixed(1)}{' '}
+															hours
+														</p>
+													</div>
+												</div>
+											</div>
+
+											{/* Fee Structure */}
+											<div className="space-y-4">
+												<h4 className="font-semibold text-usdu-black border-b border-usdu-surface pb-2">
+													Fee Structure
+												</h4>
+												<div className="space-y-3">
+													<div>
+														<p className="text-sm text-text-secondary">
+															Lend Maker Fee
+														</p>
+														<p className="font-medium text-usdu-black">
+															{(
+																parseInt(
+																	termMaxMarket
+																		.market
+																		.defaultFeeConfig
+																		.lendMakerFeeRatio
+																) / 1000000
+															).toFixed(1)}
+															%
+														</p>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Lend Taker Fee
+														</p>
+														<p className="font-medium text-usdu-black">
+															{(
+																parseInt(
+																	termMaxMarket
+																		.market
+																		.defaultFeeConfig
+																		.lendTakerFeeRatio
+																) / 1000000
+															).toFixed(1)}
+															%
+														</p>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Borrow Maker Fee
+														</p>
+														<p className="font-medium text-usdu-black">
+															{(
+																parseInt(
+																	termMaxMarket
+																		.market
+																		.defaultFeeConfig
+																		.borrowMakerFeeRatio
+																) / 1000000
+															).toFixed(1)}
+															%
+														</p>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Borrow Taker Fee
+														</p>
+														<p className="font-medium text-usdu-black">
+															{(
+																parseInt(
+																	termMaxMarket
+																		.market
+																		.defaultFeeConfig
+																		.borrowTakerFeeRatio
+																) / 1000000
+															).toFixed(1)}
+															%
+														</p>
+													</div>
+												</div>
+											</div>
+
+											{/* Capacity & Liquidity */}
+											<div className="space-y-4">
+												<h4 className="font-semibold text-usdu-black border-b border-usdu-surface pb-2">
+													Capacity & Liquidity
+												</h4>
+												<div className="space-y-3">
+													<div>
+														<p className="text-sm text-text-secondary">
+															Borrow Capacity (USD)
+														</p>
+														<p className="font-medium text-usdu-black">
+															{termMaxMarket.collection?.sortedOrderStats?.[0]?.borrowCapacityUsdValue 
+																? `$${termMaxMarket.collection.sortedOrderStats[0].borrowCapacityUsdValue.toLocaleString()}`
+																: 'N/A'
+															}
+														</p>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Borrow Capacity (Amount)
+														</p>
+														<p className="font-medium text-usdu-black">
+															{termMaxMarket.collection?.sortedOrderStats?.[0]?.borrowCapacityAmount 
+																? parseFloat(termMaxMarket.collection.sortedOrderStats[0].borrowCapacityAmount).toLocaleString(undefined, {
+																	minimumFractionDigits: 0,
+																	maximumFractionDigits: 2
+																})
+																: 'N/A'
+															}
+														</p>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Lend Capacity (USD)
+														</p>
+														<p className="font-medium text-usdu-black">
+															{termMaxMarket.collection?.sortedOrderStats?.[0]?.lendCapacityUsdValue !== undefined
+																? `$${termMaxMarket.collection.sortedOrderStats[0].lendCapacityUsdValue.toLocaleString()}`
+																: 'N/A'
+															}
+														</p>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Leverage Ratio
+														</p>
+														<p className="font-medium text-usdu-black">
+															{termMaxMarket.collection?.sortedOrderStats?.[0]?.leverageRatio 
+																? `${termMaxMarket.collection.sortedOrderStats[0].leverageRatio.toFixed(2)}x`
+																: 'N/A'
+															}
+														</p>
+													</div>
+													<div>
+														<p className="text-sm text-text-secondary">
+															Leverage APY
+														</p>
+														<p className={`font-medium ${
+															termMaxMarket.collection?.sortedOrderStats?.[0]?.leverageApy 
+																? termMaxMarket.collection.sortedOrderStats[0].leverageApy >= 0 
+																	? 'text-green-600' 
+																	: 'text-red-600'
+																: 'text-usdu-black'
+														}`}>
+															{termMaxMarket.collection?.sortedOrderStats?.[0]?.leverageApy !== undefined
+																? `${(termMaxMarket.collection.sortedOrderStats[0].leverageApy * 100).toFixed(2)}%`
+																: 'N/A'
+															}
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										{/* Contract Addresses */}
+										<div className="mt-6 pt-6 border-t border-usdu-surface">
+											<h4 className="font-semibold text-usdu-black mb-4">
+												Contract Addresses
+											</h4>
+											<div className="grid grid-cols-1 gap-4">
+												<div>
+													<p className="text-sm text-text-secondary mb-1">
+														Market
+													</p>
+													<p className="font-mono text-xs text-usdu-black break-all bg-gray-50 p-2 rounded">
+														{
+															termMaxMarket.market
+																.contracts
+																.marketAddr
+														}
+													</p>
+												</div>
+												<div>
+													<p className="text-sm text-text-secondary mb-1">
+														Router
+													</p>
+													<p className="font-mono text-xs text-usdu-black break-all bg-gray-50 p-2 rounded">
+														{
+															termMaxMarket.market
+																.contracts
+																.routerAddr
+														}
+													</p>
+												</div>
+												<div>
+													<p className="text-sm text-text-secondary mb-1">
+														Underlying
+													</p>
+													<p className="font-mono text-xs text-usdu-black break-all bg-gray-50 p-2 rounded">
+														{
+															termMaxMarket.market
+																.contracts
+																.underlyingAddr
+														}
+													</p>
+												</div>
+												<div>
+													<p className="text-sm text-text-secondary mb-1">
+														Collateral
+													</p>
+													<p className="font-mono text-xs text-usdu-black break-all bg-gray-50 p-2 rounded">
+														{
+															termMaxMarket.market
+																.contracts
+																.collateralAddr
+														}
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								)
+							)}
+						</div>
+					)}
+				</div>
+			)}
+
+			{/* Loading and Error States */}
+			{isLoading && (
+				<div className="bg-usdu-bg p-6 rounded-xl border border-usdu-surface">
+					<div className="text-center py-8">
+						<p className="text-text-secondary">
+							Loading markets...
+						</p>
+					</div>
+				</div>
+			)}
+
+			{error && (
+				<div className="bg-usdu-bg p-6 rounded-xl border border-usdu-surface">
+					<div className="text-center py-8">
+						<p className="text-red-500">Error: {error}</p>
+					</div>
+				</div>
+			)}
+
+			{!isLoading && !error && markets.length === 0 && (
+				<div className="bg-usdu-bg p-6 rounded-xl border border-usdu-surface">
+					<div className="text-center py-8">
+						<p className="text-text-secondary">No markets found</p>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
