@@ -1,17 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
-export default function MaturitiesPage() {
+export default function MaturityPage() {
 	return (
 		<div className="space-y-8">
 			{/* Header */}
 			<div>
 				<h1 className="text-3xl font-bold text-usdu-black mb-2">
-					Maturities
+					Maturity
 				</h1>
 				<p className="text-usdu-black">
-					Track and manage fixed-term positions with clear maturity dates.
-					Monitor your lending terms and plan for upcoming maturities.
+					Manage repayment and rolling of existing positions. 
+					Monitor upcoming maturities and optimize your position strategies.
 				</p>
 			</div>
 
@@ -28,9 +28,9 @@ export default function MaturitiesPage() {
 						Coming Soon
 					</h2>
 					<p className="text-text-secondary">
-						The maturities dashboard will help you track all your
-						fixed-term positions in one place. View upcoming maturity
-						dates and manage your lending portfolio effectively.
+						The maturity dashboard will help you manage repayment schedules
+						and roll existing positions. View upcoming maturity dates and
+						optimize your position strategies effectively.
 					</p>
 				</div>
 			</div>

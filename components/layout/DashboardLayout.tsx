@@ -26,13 +26,13 @@ const dashboardNavigation = [
 	{ name: 'Overview', href: '/dashboard', icon: faHome },
 	{ name: 'Liquidity', href: '/dashboard/liquidity', icon: faDroplet },
 	{
-		name: 'Borrow Rates',
-		href: '/dashboard/borrow-rates',
+		name: 'Borrow',
+		href: '/dashboard/borrow',
 		icon: faPercentage,
 	},
 	{
-		name: 'Maturities',
-		href: '/dashboard/maturities',
+		name: 'Maturity',
+		href: '/dashboard/maturity',
 		icon: faCalendarAlt,
 	},
 	{
@@ -235,7 +235,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 				</aside>
 
 				{/* Main Content */}
-				<main className="flex-1 min-h-[calc(100vh-4rem)] px-8 py-8 md:ml-64 bg-usdu-card">
+				<main className="flex-1 min-h-[calc(100vh-4rem)] max-md:px-4 md:px-8 py-8 md:ml-64 bg-usdu-card">
 					<div>{children}</div>
 				</main>
 			</div>
