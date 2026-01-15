@@ -73,8 +73,8 @@ export default function About() {
 							Understanding USDU Protocol
 						</h2>
 						<p className="text-xl text-text-secondary max-w-3xl mx-auto">
-							A comprehensive overview of what USDU is, what it's
-							not, and what it's designed to achieve in the
+							A comprehensive overview of what USDU is, what it&apos;s
+							not, and what it&apos;s designed to achieve in the
 							institutional finance ecosystem.
 						</p>
 					</motion.div>

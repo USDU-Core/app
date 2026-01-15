@@ -1,9 +1,7 @@
 // App constants
 export const APP_NAME = 'USDU Finance';
-export const APP_DESCRIPTION =
-	'A decentralized finance application for USDU protocol';
-export const APP_URL =
-	process.env.NEXT_PUBLIC_APP_URL || 'https://usdu.finance';
+export const APP_DESCRIPTION = 'A decentralized finance application for USDU protocol';
+export const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://usdu.finance';
 
 // Project information
 export const PROJECT = {
@@ -11,7 +9,7 @@ export const PROJECT = {
 	blockchains: ['Ethereum'],
 	tagline: 'Low-Cost Stable Funding for On-Chain Credit',
 	description:
-		'Protocol-issued, non-algorithmic stablecoin offering ~4-6% fixed-term funding for structured finance and credit markets. Fully convertible to USDC on-chain.',
+		'Protocol-issued, non-algorithmic stablecoin offering fixed-term funding for structured finance and credit markets. Fully convertible to USDC on-chain.',
 	logo: '/assets/usdu-full-text-1024x346.png',
 };
 
@@ -23,8 +21,7 @@ export const SOCIAL = {
 	Defillama: 'https://defillama.com/stablecoin/usdu-finance',
 	Coingecko: 'https://www.coingecko.com/en/coins/usdu-finance',
 	Aragon: 'https://app.aragon.org/dao/ethereum-mainnet/usdu.dao.eth/dashboard',
-	Etherscan:
-		'https://etherscan.io/token/0xdde3eC717f220Fc6A29D6a4Be73F91DA5b718e55',
+	Etherscan: 'https://etherscan.io/token/0xdde3eC717f220Fc6A29D6a4Be73F91DA5b718e55',
 };
 
 // Environment variables

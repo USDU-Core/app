@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useReadContracts } from 'wagmi';
-import { formatUnits } from 'viem';
+import { Address, formatUnits } from 'viem';
 import { ERC20ABI } from '@/lib/abis/erc/ERC20';
 import { ICurveStableSwapNG } from '@/lib/abis/curve/ICurveStableSwapNG';
-import { COINS, ADDRESSES } from '@/lib/addresses';
+import { mainnet } from 'viem/chains';
+import { ADDRESS } from '@usdu-finance/usdu-core';
 
 interface ProtocolData {
 	usduSupply: string | null;
 	dexLiquidity: string | null;
 	usduPrice: string | null;
+	adapters: Map<string, Address> | null;
 	isLoading: boolean;
 	error: string | null;
 }
@@ -18,40 +20,44 @@ export function useProtocolData(): ProtocolData {
 		usduSupply: null,
 		dexLiquidity: null,
 		usduPrice: null,
+		adapters: null,
 		isLoading: true,
 		error: null,
 	});
+
+	const USDU = ADDRESS[mainnet.id].usduStable;
+	const USDC = ADDRESS[mainnet.id].usdc;
+	const poolAddress = ADDRESS[mainnet.id].curveStableSwapNG_USDUUSDC_2;
 
 	// Contract read calls
 	const { data, error, isLoading } = useReadContracts({
 		contracts: [
 			// USDU Total Supply
 			{
-				address: COINS.USDU as `0x${string}`,
+				address: USDU,
 				abi: ERC20ABI,
 				functionName: 'totalSupply',
 			},
 			// USDU balance in Curve pool (DEX Liquidity)
 			{
-				address: COINS.USDU as `0x${string}`,
+				address: USDU,
 				abi: ERC20ABI,
 				functionName: 'balanceOf',
-				args: [ADDRESSES.curveStableSwapNG_USDUUSDC_2 as `0x${string}`],
+				args: [poolAddress],
 			},
 			// USDC balance in Curve pool (for total liquidity calculation)
 			{
-				address: COINS.USDC as `0x${string}`,
+				address: USDC,
 				abi: ERC20ABI,
 				functionName: 'balanceOf',
-				args: [ADDRESSES.curveStableSwapNG_USDUUSDC_2 as `0x${string}`],
+				args: [poolAddress],
 			},
 			// USDU price from Curve (get_dy: from USDU to USDC, 1 USDU = ? USDC)
 			{
-				address:
-					ADDRESSES.curveStableSwapNG_USDUUSDC_2 as `0x${string}`,
+				address: poolAddress,
 				abi: ICurveStableSwapNG,
 				functionName: 'get_dy',
-				args: [0n, 1n, BigInt(1e6)], // from token 0 (USDU) to token 1 (USDC), 1 USDU (1e6 wei)
+				args: [1n, 0n, BigInt(1e18)], // from token 1 (USDU) to token 0 (USDC), 1 USDU (1e18 wei)
 			},
 		],
 		query: {
@@ -72,39 +78,35 @@ export function useProtocolData(): ProtocolData {
 
 		if (data && data.length === 4 && !isLoading) {
 			try {
-				const [
-					usduSupplyResult,
-					usduBalanceResult,
-					usdcBalanceResult,
-					priceResult,
-				] = data;
+				const [usduSupplyResult, usduBalanceResult, usdcBalanceResult, priceResult] = data;
 
 				// Calculate USDU supply (formatted from 6 decimals)
-				const usduSupply = usduSupplyResult.result
-					? formatUnits(usduSupplyResult.result as bigint, 18)
-					: null;
+				const usduSupply = usduSupplyResult.result ? formatUnits(usduSupplyResult.result as bigint, 18) : null;
 
 				// Calculate total DEX liquidity (USDU + USDC balance in pool)
 				let dexLiquidity: string | null = null;
 				if (usduBalanceResult.result && usdcBalanceResult.result) {
-					const usduBalance = Number(
-						formatUnits(usduBalanceResult.result as bigint, 18)
-					);
-					const usdcBalance = Number(
-						formatUnits(usdcBalanceResult.result as bigint, 6)
-					);
+					const usduBalance = Number(formatUnits(usduBalanceResult.result as bigint, 18));
+					const usdcBalance = Number(formatUnits(usdcBalanceResult.result as bigint, 6));
 					dexLiquidity = (usduBalance + usdcBalance).toString();
 				}
 
 				// Calculate USDU price (how much USDC for 1 USDU)
-				const usduPrice = priceResult.result
-					? formatUnits(priceResult.result as bigint, 18)
-					: null;
+				const usduPrice = priceResult.result ? formatUnits(priceResult.result as bigint, 6) : null;
+
+				// Add current adapters here
+				const adapters = new Map<string, Address>();
+				adapters.set('Morpho Core', ADDRESS[mainnet.id].usduMorphoAdapterV1_2);
+				adapters.set('Curve Pool', ADDRESS[mainnet.id].usduCurveAdapterV1_1_USDC_2);
+				adapters.set('TermMax Core', ADDRESS[mainnet.id].termmaxVaultAdapterRecoverV1_Core);
+				adapters.set('TermMax RWA', ADDRESS[mainnet.id].termmaxVaultAdapterRecoverV1_RWA);
+				adapters.set('TermMax Yield', ADDRESS[mainnet.id].termmaxVaultAdapterRecoverV1_Yield);
 
 				setProtocolData({
 					usduSupply,
 					dexLiquidity,
 					usduPrice,
+					adapters,
 					isLoading: false,
 					error: null,
 				});

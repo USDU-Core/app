@@ -1,5 +1,6 @@
-import { COINS } from '@/lib/addresses';
+import { ADDRESS } from '@usdu-finance/usdu-core';
 import { useEffect, useState } from 'react';
+import { mainnet } from 'viem/chains';
 
 // Base interfaces for the API response
 interface MarketContracts {
@@ -131,22 +132,22 @@ interface TermMaxAPIResponse {
 export interface TermMaxMarket {
 	// Core market data
 	market: Market;
-	
+
 	// Related asset configurations
 	underlying: AssetConfig | null;
 	collateral: AssetConfig | null;
 	ftToken: AssetConfig | null;
 	xtToken: AssetConfig | null;
-	
+
 	// Related GT configuration
 	gtConfig: GTConfig | null;
-	
+
 	// Related order configurations
 	orderConfigs: OrderConfig[];
-	
+
 	// Collection data with borrow rates and capacity
 	collection: Collection | null;
-	
+
 	// Computed fields for convenience
 	isUSDUMarket: boolean;
 	daysToMaturity: number | null;
@@ -161,30 +162,22 @@ interface TermMaxMarketsData {
 
 // Helper function to find asset config by contract address
 function findAssetByAddress(assets: AssetConfig[], address: string): AssetConfig | null {
-	return assets.find(asset => 
-		asset.contractAddress.toLowerCase() === address.toLowerCase()
-	) || null;
+	return assets.find((asset) => asset.contractAddress.toLowerCase() === address.toLowerCase()) || null;
 }
 
 // Helper function to find GT config by contract address
 function findGTByAddress(gtConfigs: GTConfig[], address: string): GTConfig | null {
-	return gtConfigs.find(gt => 
-		gt.contractAddress.toLowerCase() === address.toLowerCase()
-	) || null;
+	return gtConfigs.find((gt) => gt.contractAddress.toLowerCase() === address.toLowerCase()) || null;
 }
 
 // Helper function to find order configs by market address
 function findOrdersByMarketAddress(orderConfigs: OrderConfig[], marketAddress: string): OrderConfig[] {
-	return orderConfigs.filter(order => 
-		order.contracts.marketAddr.toLowerCase() === marketAddress.toLowerCase()
-	);
+	return orderConfigs.filter((order) => order.contracts.marketAddr.toLowerCase() === marketAddress.toLowerCase());
 }
 
 // Helper function to find collection by market address
 function findCollectionByMarketAddress(collections: Collection[], marketAddress: string): Collection | null {
-	return collections.find(collection => 
-		collection.marketAddress.toLowerCase() === marketAddress.toLowerCase()
-	) || null;
+	return collections.find((collection) => collection.marketAddress.toLowerCase() === marketAddress.toLowerCase()) || null;
 }
 
 // Helper function to calculate days to maturity
@@ -197,20 +190,14 @@ function calculateDaysToMaturity(maturityDate: string): number {
 
 // Helper function to check if market involves USDU
 function isUSDUInvolved(underlying: AssetConfig | null, collateral: AssetConfig | null): boolean {
-	const usduAddress = COINS.USDU?.toLowerCase();
+	const usduAddress = ADDRESS[mainnet.id].usduStable.toLowerCase();
 	if (!usduAddress) return false;
-	
-	return (
-		underlying?.contractAddress.toLowerCase() === usduAddress ||
-		collateral?.contractAddress.toLowerCase() === usduAddress
-	);
+
+	return underlying?.contractAddress.toLowerCase() === usduAddress || collateral?.contractAddress.toLowerCase() === usduAddress;
 }
 
 // Main hook for fetching and processing TermMax markets data
-export function useTermMaxMarkets(
-	filterByUnderlying?: string[],
-	chainId: number = 1
-): TermMaxMarketsData {
+export function useTermMaxMarkets(filterByUnderlying?: string[], chainId: number = 1): TermMaxMarketsData {
 	const [data, setData] = useState<TermMaxMarketsData>({
 		markets: [],
 		isLoading: true,
@@ -220,7 +207,7 @@ export function useTermMaxMarkets(
 	useEffect(() => {
 		const fetchTermMaxMarkets = async () => {
 			try {
-				setData(prev => ({ ...prev, isLoading: true, error: null }));
+				setData((prev) => ({ ...prev, isLoading: true, error: null }));
 
 				const response = await fetch(
 					`https://api.termmax.ts.finance/v2/market/list-with-collection?chainId=${chainId}&tags=borrow&includeInactive=false&sortBy=capacity&sortDirection=desc`,
@@ -240,7 +227,7 @@ export function useTermMaxMarkets(
 				const { assetConfigs, gtConfigs, markets, orderConfigs, collections } = apiData.data;
 
 				// Process markets and combine with related data
-				let processedMarkets: TermMaxMarket[] = markets.map(market => {
+				let processedMarkets: TermMaxMarket[] = markets.map((market) => {
 					const underlying = findAssetByAddress(assetConfigs, market.contracts.underlyingAddr);
 					const collateral = findAssetByAddress(assetConfigs, market.contracts.collateralAddr);
 					const ftToken = findAssetByAddress(assetConfigs, market.contracts.ftAddr);
@@ -270,9 +257,9 @@ export function useTermMaxMarkets(
 
 				// Filter by underlying addresses if specified
 				if (filterByUnderlying && filterByUnderlying.length > 0) {
-					processedMarkets = processedMarkets.filter(processedMarket =>
-						filterByUnderlying.some(address =>
-							processedMarket.underlying?.contractAddress.toLowerCase() === address.toLowerCase()
+					processedMarkets = processedMarkets.filter((processedMarket) =>
+						filterByUnderlying.some(
+							(address) => processedMarket.underlying?.contractAddress.toLowerCase() === address.toLowerCase()
 						)
 					);
 				}
@@ -300,22 +287,19 @@ export function useTermMaxMarkets(
 // Convenience hook specifically for USDU markets on Ethereum mainnet
 export function useUSDUTermMaxMarkets(): TermMaxMarketsData {
 	const allMarkets = useTermMaxMarkets(undefined, 1);
-	
+
 	return {
 		...allMarkets,
-		markets: allMarkets.markets.filter(market => market.isUSDUMarket),
+		markets: allMarkets.markets.filter((market) => market.isUSDUMarket),
 	};
 }
 
 // Convenience hook for active (non-expired) markets
-export function useActiveTermMaxMarkets(
-	filterByUnderlying?: string[],
-	chainId: number = 1
-): TermMaxMarketsData {
+export function useActiveTermMaxMarkets(filterByUnderlying?: string[], chainId: number = 1): TermMaxMarketsData {
 	const allMarkets = useTermMaxMarkets(filterByUnderlying, chainId);
-	
+
 	return {
 		...allMarkets,
-		markets: allMarkets.markets.filter(market => !market.isExpired),
+		markets: allMarkets.markets.filter((market) => !market.isExpired),
 	};
 }

@@ -14,7 +14,7 @@ interface TabsProps {
 
 interface TabProps {
 	children: ReactNode;
-	value?: any;
+	value?: string | number;
 	className?: string;
 }
 

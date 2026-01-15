@@ -2,7 +2,12 @@ import { useUSDUTermMaxMarkets } from '@/hooks/useTermMaxMarkets';
 import Tabs, { Tab } from '@/components/ui/Tabs';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp, faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+	faChevronDown,
+	faChevronUp,
+	faCopy,
+	faCheck,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function BorrowPage() {
 	const { markets, isLoading, error } = useUSDUTermMaxMarkets();
@@ -104,8 +109,9 @@ export default function BorrowPage() {
 					Borrow
 				</h1>
 				<p className="text-usdu-black">
-					Select a suitable collateral and maturity to initiate a borrow action. 
-					If your desired terms aren't available, you can create a custom order.
+					Select a suitable collateral and maturity to initiate a
+					borrow action. If your desired terms aren&apos;t available, you
+					can create a custom order.
 				</p>
 			</div>
 
@@ -511,7 +517,7 @@ export default function BorrowPage() {
 																: 'N/A'}
 														</p>
 													</div>
-													<div>
+													{/* <div>
 														<p className="text-sm text-text-secondary">
 															Lend Capacity (USD)
 														</p>
@@ -524,7 +530,7 @@ export default function BorrowPage() {
 																? `$${termMaxMarket.collection.sortedOrderStats[0].lendCapacityUsdValue.toLocaleString()}`
 																: 'N/A'}
 														</p>
-													</div>
+													</div> */}
 													<div>
 														<p className="text-sm text-text-secondary">
 															Leverage Ratio
@@ -573,18 +579,25 @@ export default function BorrowPage() {
 										{/* Contract Addresses - Collapsible Accordion */}
 										<div className="mt-6 pt-6 border-t border-usdu-surface">
 											<button
-												onClick={() => setIsContractsExpanded(!isContractsExpanded)}
-												className="w-full flex items-center justify-between text-left hover:bg-usdu-surface/30 p-2 rounded transition-colors"
-											>
+												onClick={() =>
+													setIsContractsExpanded(
+														!isContractsExpanded
+													)
+												}
+												className="w-full flex items-center justify-between text-left hover:bg-usdu-surface/30 p-2 rounded transition-colors">
 												<h4 className="font-semibold text-usdu-black">
 													Contract Addresses
 												</h4>
 												<FontAwesomeIcon
-													icon={isContractsExpanded ? faChevronUp : faChevronDown}
+													icon={
+														isContractsExpanded
+															? faChevronUp
+															: faChevronDown
+													}
 													className="w-4 h-4 text-usdu-black"
 												/>
 											</button>
-											
+
 											{isContractsExpanded && (
 												<div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
 													{/* Market Address */}
@@ -594,15 +607,34 @@ export default function BorrowPage() {
 														</p>
 														<div className="flex items-center justify-between">
 															<p className="font-mono text-xs text-usdu-black break-all mr-3">
-																{termMaxMarket.market.contracts.marketAddr}
+																{
+																	termMaxMarket
+																		.market
+																		.contracts
+																		.marketAddr
+																}
 															</p>
 															<button
-																onClick={() => copyToClipboard(termMaxMarket.market.contracts.marketAddr)}
+																onClick={() =>
+																	copyToClipboard(
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.marketAddr
+																	)
+																}
 																className="flex-shrink-0 p-2 hover:bg-white rounded transition-colors"
-																title="Copy address"
-															>
+																title="Copy address">
 																<FontAwesomeIcon
-																	icon={copiedAddress === termMaxMarket.market.contracts.marketAddr ? faCheck : faCopy}
+																	icon={
+																		copiedAddress ===
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.marketAddr
+																			? faCheck
+																			: faCopy
+																	}
 																	className={`w-3 h-3 ${copiedAddress === termMaxMarket.market.contracts.marketAddr ? 'text-green-600' : 'text-usdu-black'}`}
 																/>
 															</button>
@@ -616,15 +648,34 @@ export default function BorrowPage() {
 														</p>
 														<div className="flex items-center justify-between">
 															<p className="font-mono text-xs text-usdu-black break-all mr-3">
-																{termMaxMarket.market.contracts.routerAddr}
+																{
+																	termMaxMarket
+																		.market
+																		.contracts
+																		.routerAddr
+																}
 															</p>
 															<button
-																onClick={() => copyToClipboard(termMaxMarket.market.contracts.routerAddr)}
+																onClick={() =>
+																	copyToClipboard(
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.routerAddr
+																	)
+																}
 																className="flex-shrink-0 p-2 hover:bg-white rounded transition-colors"
-																title="Copy address"
-															>
+																title="Copy address">
 																<FontAwesomeIcon
-																	icon={copiedAddress === termMaxMarket.market.contracts.routerAddr ? faCheck : faCopy}
+																	icon={
+																		copiedAddress ===
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.routerAddr
+																			? faCheck
+																			: faCopy
+																	}
 																	className={`w-3 h-3 ${copiedAddress === termMaxMarket.market.contracts.routerAddr ? 'text-green-600' : 'text-usdu-black'}`}
 																/>
 															</button>
@@ -638,15 +689,34 @@ export default function BorrowPage() {
 														</p>
 														<div className="flex items-center justify-between">
 															<p className="font-mono text-xs text-usdu-black break-all mr-3">
-																{termMaxMarket.market.contracts.underlyingAddr}
+																{
+																	termMaxMarket
+																		.market
+																		.contracts
+																		.underlyingAddr
+																}
 															</p>
 															<button
-																onClick={() => copyToClipboard(termMaxMarket.market.contracts.underlyingAddr)}
+																onClick={() =>
+																	copyToClipboard(
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.underlyingAddr
+																	)
+																}
 																className="flex-shrink-0 p-2 hover:bg-white rounded transition-colors"
-																title="Copy address"
-															>
+																title="Copy address">
 																<FontAwesomeIcon
-																	icon={copiedAddress === termMaxMarket.market.contracts.underlyingAddr ? faCheck : faCopy}
+																	icon={
+																		copiedAddress ===
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.underlyingAddr
+																			? faCheck
+																			: faCopy
+																	}
 																	className={`w-3 h-3 ${copiedAddress === termMaxMarket.market.contracts.underlyingAddr ? 'text-green-600' : 'text-usdu-black'}`}
 																/>
 															</button>
@@ -660,15 +730,34 @@ export default function BorrowPage() {
 														</p>
 														<div className="flex items-center justify-between">
 															<p className="font-mono text-xs text-usdu-black break-all mr-3">
-																{termMaxMarket.market.contracts.collateralAddr}
+																{
+																	termMaxMarket
+																		.market
+																		.contracts
+																		.collateralAddr
+																}
 															</p>
 															<button
-																onClick={() => copyToClipboard(termMaxMarket.market.contracts.collateralAddr)}
+																onClick={() =>
+																	copyToClipboard(
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.collateralAddr
+																	)
+																}
 																className="flex-shrink-0 p-2 hover:bg-white rounded transition-colors"
-																title="Copy address"
-															>
+																title="Copy address">
 																<FontAwesomeIcon
-																	icon={copiedAddress === termMaxMarket.market.contracts.collateralAddr ? faCheck : faCopy}
+																	icon={
+																		copiedAddress ===
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.collateralAddr
+																			? faCheck
+																			: faCopy
+																	}
 																	className={`w-3 h-3 ${copiedAddress === termMaxMarket.market.contracts.collateralAddr ? 'text-green-600' : 'text-usdu-black'}`}
 																/>
 															</button>
@@ -682,15 +771,34 @@ export default function BorrowPage() {
 														</p>
 														<div className="flex items-center justify-between">
 															<p className="font-mono text-xs text-usdu-black break-all mr-3">
-																{termMaxMarket.market.contracts.ftAddr}
+																{
+																	termMaxMarket
+																		.market
+																		.contracts
+																		.ftAddr
+																}
 															</p>
 															<button
-																onClick={() => copyToClipboard(termMaxMarket.market.contracts.ftAddr)}
+																onClick={() =>
+																	copyToClipboard(
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.ftAddr
+																	)
+																}
 																className="flex-shrink-0 p-2 hover:bg-white rounded transition-colors"
-																title="Copy address"
-															>
+																title="Copy address">
 																<FontAwesomeIcon
-																	icon={copiedAddress === termMaxMarket.market.contracts.ftAddr ? faCheck : faCopy}
+																	icon={
+																		copiedAddress ===
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.ftAddr
+																			? faCheck
+																			: faCopy
+																	}
 																	className={`w-3 h-3 ${copiedAddress === termMaxMarket.market.contracts.ftAddr ? 'text-green-600' : 'text-usdu-black'}`}
 																/>
 															</button>
@@ -704,15 +812,34 @@ export default function BorrowPage() {
 														</p>
 														<div className="flex items-center justify-between">
 															<p className="font-mono text-xs text-usdu-black break-all mr-3">
-																{termMaxMarket.market.contracts.xtAddr}
+																{
+																	termMaxMarket
+																		.market
+																		.contracts
+																		.xtAddr
+																}
 															</p>
 															<button
-																onClick={() => copyToClipboard(termMaxMarket.market.contracts.xtAddr)}
+																onClick={() =>
+																	copyToClipboard(
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.xtAddr
+																	)
+																}
 																className="flex-shrink-0 p-2 hover:bg-white rounded transition-colors"
-																title="Copy address"
-															>
+																title="Copy address">
 																<FontAwesomeIcon
-																	icon={copiedAddress === termMaxMarket.market.contracts.xtAddr ? faCheck : faCopy}
+																	icon={
+																		copiedAddress ===
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.xtAddr
+																			? faCheck
+																			: faCopy
+																	}
 																	className={`w-3 h-3 ${copiedAddress === termMaxMarket.market.contracts.xtAddr ? 'text-green-600' : 'text-usdu-black'}`}
 																/>
 															</button>
@@ -726,15 +853,34 @@ export default function BorrowPage() {
 														</p>
 														<div className="flex items-center justify-between">
 															<p className="font-mono text-xs text-usdu-black break-all mr-3">
-																{termMaxMarket.market.contracts.gtAddr}
+																{
+																	termMaxMarket
+																		.market
+																		.contracts
+																		.gtAddr
+																}
 															</p>
 															<button
-																onClick={() => copyToClipboard(termMaxMarket.market.contracts.gtAddr)}
+																onClick={() =>
+																	copyToClipboard(
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.gtAddr
+																	)
+																}
 																className="flex-shrink-0 p-2 hover:bg-white rounded transition-colors"
-																title="Copy address"
-															>
+																title="Copy address">
 																<FontAwesomeIcon
-																	icon={copiedAddress === termMaxMarket.market.contracts.gtAddr ? faCheck : faCopy}
+																	icon={
+																		copiedAddress ===
+																		termMaxMarket
+																			.market
+																			.contracts
+																			.gtAddr
+																			? faCheck
+																			: faCopy
+																	}
 																	className={`w-3 h-3 ${copiedAddress === termMaxMarket.market.contracts.gtAddr ? 'text-green-600' : 'text-usdu-black'}`}
 																/>
 															</button>
