@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useReadContracts } from 'wagmi';
-import { Address, formatUnits } from 'viem';
+import { formatUnits } from 'viem';
 import { ERC20ABI } from '@/lib/abis/erc/ERC20';
 import { ICurveStableSwapNG } from '@/lib/abis/curve/ICurveStableSwapNG';
 import { mainnet } from 'viem/chains';
@@ -10,7 +10,6 @@ interface ProtocolData {
 	usduSupply: string | null;
 	dexLiquidity: string | null;
 	usduPrice: string | null;
-	adapters: Map<string, Address> | null;
 	isLoading: boolean;
 	error: string | null;
 }
@@ -20,7 +19,6 @@ export function useProtocolData(): ProtocolData {
 		usduSupply: null,
 		dexLiquidity: null,
 		usduPrice: null,
-		adapters: null,
 		isLoading: true,
 		error: null,
 	});
@@ -94,19 +92,10 @@ export function useProtocolData(): ProtocolData {
 				// Calculate USDU price (how much USDC for 1 USDU)
 				const usduPrice = priceResult.result ? formatUnits(priceResult.result as bigint, 6) : null;
 
-				// Add current adapters here
-				const adapters = new Map<string, Address>();
-				adapters.set('Morpho Core', ADDRESS[mainnet.id].usduMorphoAdapterV1_2);
-				adapters.set('Curve Pool', ADDRESS[mainnet.id].usduCurveAdapterV1_1_USDC_2);
-				adapters.set('TermMax Core', ADDRESS[mainnet.id].termmaxVaultAdapterRecoverV1_Core);
-				adapters.set('TermMax RWA', ADDRESS[mainnet.id].termmaxVaultAdapterRecoverV1_RWA);
-				adapters.set('TermMax Yield', ADDRESS[mainnet.id].termmaxVaultAdapterRecoverV1_Yield);
-
 				setProtocolData({
 					usduSupply,
 					dexLiquidity,
 					usduPrice,
-					adapters,
 					isLoading: false,
 					error: null,
 				});

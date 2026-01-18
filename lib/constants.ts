@@ -17,7 +17,7 @@ export const PROJECT = {
 export const SOCIAL = {
 	Github_user: 'https://github.com/usdu-finance',
 	Twitter: 'https://x.com/USDUfinance',
-	Telegram: 'https://t.me/usdu-finance',
+	Telegram: 'https://t.me/usdufinance',
 	Defillama: 'https://defillama.com/stablecoin/usdu-finance',
 	Coingecko: 'https://www.coingecko.com/en/coins/usdu-finance',
 	Aragon: 'https://app.aragon.org/dao/ethereum-mainnet/usdu.dao.eth/dashboard',

@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faArrowUpRightFromSquare,
-	faBars,
-	faTimes,
-} from '@fortawesome/free-solid-svg-icons';
-import { PROJECT, SOCIAL } from '@/lib/constants';
+import { faArrowUpRightFromSquare, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { PROJECT } from '@/lib/constants';
 import Footer from './Footer';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import Image from 'next/image';
@@ -21,7 +18,7 @@ interface NavigationItem {
 const navigation: NavigationItem[] = [
 	{ name: 'Maturities', href: '/maturities' },
 	{ name: 'Transparency', href: '/transparency' },
-	{ name: 'Governance', href: SOCIAL.Aragon, external: true },
+	{ name: 'Modules', href: '/modules' },
 ];
 
 interface HomeLayoutProps {
@@ -30,6 +27,7 @@ interface HomeLayoutProps {
 
 export default function HomeLayout({ children }: HomeLayoutProps) {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const router = useRouter();
 
 	const toggleMobileMenu = () => {
 		setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -67,26 +65,22 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 										href={item.href}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="flex items-center gap-2 text-text-secondary hover:text-usdu-orange transition-colors text-sm font-medium">
-										{item.icon && (
-											<FontAwesomeIcon
-												icon={item.icon}
-												className="w-4 h-4"
-											/>
-										)}
+										className="flex items-center gap-2 text-text-secondary hover:text-usdu-orange transition-colors text-sm font-medium"
+									>
+										{item.icon && <FontAwesomeIcon icon={item.icon} className="w-4 h-4" />}
 										{item.name}
 									</a>
 								) : (
 									<Link
 										key={item.name}
 										href={item.href}
-										className="flex items-center gap-2 text-text-secondary hover:text-usdu-orange transition-colors text-sm font-medium">
-										{item.icon && (
-											<FontAwesomeIcon
-												icon={item.icon}
-												className="w-4 h-4"
-											/>
-										)}
+										className={`flex items-center gap-2 transition-colors text-sm font-medium ${
+											router.pathname === item.href
+												? 'text-usdu-orange'
+												: 'text-text-secondary hover:text-usdu-orange'
+										}`}
+									>
+										{item.icon && <FontAwesomeIcon icon={item.icon} className="w-4 h-4" />}
 										{item.name}
 									</Link>
 								)
@@ -97,23 +91,19 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 						<div className="hidden md:flex items-center gap-4">
 							<Link
 								href="/dashboard"
-								className="inline-flex items-center gap-2 bg-usdu-orange text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium">
+								className="inline-flex items-center gap-2 bg-usdu-orange text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors text-sm font-medium"
+							>
 								Launch App
-								<FontAwesomeIcon
-									icon={faArrowUpRightFromSquare}
-									className="w-3 h-3"
-								/>
+								<FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-3 h-3" />
 							</Link>
 						</div>
 
 						{/* Mobile Menu Button */}
 						<button
 							onClick={toggleMobileMenu}
-							className="md:hidden p-2 text-text-secondary hover:text-usdu-orange transition-colors">
-							<FontAwesomeIcon
-								icon={isMobileMenuOpen ? faTimes : faBars}
-								className="w-5 h-5"
-							/>
+							className="md:hidden p-2 text-text-secondary hover:text-usdu-orange transition-colors"
+						>
+							<FontAwesomeIcon icon={isMobileMenuOpen ? faTimes : faBars} className="w-5 h-5" />
 						</button>
 					</div>
 
@@ -129,27 +119,23 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 											target="_blank"
 											rel="noopener noreferrer"
 											className="flex items-center gap-3 text-text-secondary hover:text-usdu-orange transition-colors text-sm font-medium"
-											onClick={closeMobileMenu}>
-											{item.icon && (
-												<FontAwesomeIcon
-													icon={item.icon}
-													className="w-4 h-4"
-												/>
-											)}
+											onClick={closeMobileMenu}
+										>
+											{item.icon && <FontAwesomeIcon icon={item.icon} className="w-4 h-4" />}
 											{item.name}
 										</a>
 									) : (
 										<Link
 											key={item.name}
 											href={item.href}
-											className="flex items-center gap-3 text-text-secondary hover:text-usdu-orange transition-colors text-sm font-medium"
-											onClick={closeMobileMenu}>
-											{item.icon && (
-												<FontAwesomeIcon
-													icon={item.icon}
-													className="w-4 h-4"
-												/>
-											)}
+											className={`flex items-center gap-3 transition-colors text-sm font-medium rounded-lg px-3 py-2 ${
+												router.pathname === item.href
+													? 'bg-usdu-surface text-usdu-orange'
+													: 'text-text-secondary hover:text-usdu-orange hover:bg-usdu-surface'
+											}`}
+											onClick={closeMobileMenu}
+										>
+											{item.icon && <FontAwesomeIcon icon={item.icon} className="w-4 h-4" />}
 											{item.name}
 										</Link>
 									)
@@ -157,12 +143,10 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 								<Link
 									href="/dashboard"
 									className="inline-flex items-center gap-2 bg-usdu-orange text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors text-sm font-medium"
-									onClick={closeMobileMenu}>
+									onClick={closeMobileMenu}
+								>
 									Launch App
-									<FontAwesomeIcon
-										icon={faArrowUpRightFromSquare}
-										className="w-3 h-3"
-									/>
+									<FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-3 h-3" />
 								</Link>
 							</nav>
 						</div>
@@ -170,7 +154,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 				</div>
 			</header>
 
-			<main className="max-md:mt-18">{children}</main>
+			<main className="mt-18">{children}</main>
 
 			<Footer />
 		</div>

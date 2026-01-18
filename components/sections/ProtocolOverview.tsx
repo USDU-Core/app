@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShield, faExchangeAlt, faChartLine, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { useProtocolData } from '@/hooks/useProtocolData';
 import { formatValueWithState, formatPriceWithState } from '@/lib/utils';
+import StatsCard from '@/components/ui/StatsCard';
+import { useModulesData } from '@/hooks/useModulesData';
 
 const features = [
 	{
@@ -29,7 +31,8 @@ const features = [
 ];
 
 export default function ProtocolOverview() {
-	const { usduSupply, dexLiquidity, usduPrice, adapters, isLoading, error } = useProtocolData();
+	const { usduSupply, dexLiquidity, usduPrice, isLoading, error } = useProtocolData();
+	const { activeModules } = useModulesData();
 
 	return (
 		<section className="py-20 bg-usdu-card">
@@ -73,32 +76,28 @@ export default function ProtocolOverview() {
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6, delay: 0.4 }}
 					viewport={{ once: true }}
-					className="mt-16 bg-usdu-black rounded-2xl p-8"
+					className="mt-16"
 				>
-					<div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-						<div>
-							<div className="text-2xl font-bold text-usdu-card mb-2">
-								{formatValueWithState(usduSupply, isLoading, error, '$', '')}
-							</div>
-							<div className="text-sm text-usdu-card">USDU Supply</div>
-						</div>
-						<div>
-							<div className="text-2xl font-bold text-usdu-card mb-2">
-								{formatValueWithState(dexLiquidity, isLoading, error, '$', '')}
-							</div>
-							<div className="text-sm text-usdu-card">DEX Liquidity</div>
-						</div>
-						<div>
-							<div className="text-2xl font-bold text-usdu-card mb-2">
-								{formatPriceWithState(usduPrice, isLoading, error, 4)}
-							</div>
-							<div className="text-sm text-usdu-card">USDU Price</div>
-						</div>
-						<div>
-							<div className="text-2xl font-bold text-usdu-card mb-2">{adapters?.size}</div>
-							<div className="text-sm text-usdu-card">Protocol Adapters</div>
-						</div>
-					</div>
+					<StatsCard
+						stats={[
+							{
+								value: formatValueWithState(usduSupply, isLoading, error, '$', ''),
+								label: 'USDU Supply',
+							},
+							{
+								value: formatValueWithState(dexLiquidity, isLoading, error, '$', ''),
+								label: 'DEX Liquidity',
+							},
+							{
+								value: formatPriceWithState(usduPrice, isLoading, error, 4),
+								label: 'USDU Price',
+							},
+							{
+								value: activeModules.length || 0,
+								label: 'Protocol Adapters',
+							},
+						]}
+					/>
 				</motion.div>
 			</div>
 		</section>
