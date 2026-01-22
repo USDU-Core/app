@@ -5,27 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { PROJECT } from '@/lib/constants';
 import Footer from './Footer';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import Image from 'next/image';
+import { LayoutProps } from './Layout.types';
+import { homeNavigation } from '@/lib/layout/navigation';
 
-interface NavigationItem {
-	name: string;
-	href: string;
-	icon?: IconProp;
-	external?: boolean;
-}
-
-const navigation: NavigationItem[] = [
-	{ name: 'Maturities', href: '/maturities' },
-	{ name: 'Transparency', href: '/transparency' },
-	{ name: 'Modules', href: '/modules' },
-];
-
-interface HomeLayoutProps {
-	children: React.ReactNode;
-}
-
-export default function HomeLayout({ children }: HomeLayoutProps) {
+export default function HomeLayout({ children }: LayoutProps) {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const router = useRouter();
 
@@ -58,7 +42,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 
 						{/* Desktop Navigation */}
 						<nav className="hidden md:flex items-center space-x-8">
-							{navigation.map((item) =>
+							{homeNavigation.map((item) =>
 								item.external ? (
 									<a
 										key={item.name}
@@ -111,7 +95,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 					{isMobileMenuOpen && (
 						<div className="md:hidden mt-4 pb-4 border-t border-usdu-surface pt-4">
 							<nav className="space-y-4">
-								{navigation.map((item) =>
+								{homeNavigation.map((item) =>
 									item.external ? (
 										<a
 											key={item.name}
