@@ -35,3 +35,31 @@ export const STORAGE_KEYS = {
 	AUTH_TOKEN: 'auth_token',
 	USER_PREFERENCES: 'user_preferences',
 } as const;
+
+// SEO metadata
+export const SEO = {
+	home: {
+		title: `${APP_NAME} - Institutional-Grade Stablecoin for Credit Markets`,
+		description: `${PROJECT.description} Offering 4-6% fixed-term funding rates with DAO governance.`,
+		openGraph: {
+			title: `${APP_NAME} - Institutional-Grade Stablecoin`,
+			description: 'Non-algorithmic stablecoin for structured finance and credit markets. Fully convertible to USDC with transparent governance.',
+			type: 'website' as const,
+			url: APP_URL,
+		},
+		twitter: {
+			cardType: 'summary_large_image' as const,
+			site: '@usdufinance',
+		},
+	},
+	modules: {
+		title: `Protocol Modules & Governance - ${APP_NAME}`,
+		description: 'Manage USDU protocol modules through expiration-based governance. Review active adapters, pending proposals, and module history with secure timelock controls.',
+		openGraph: {
+			title: `Protocol Modules & Governance - ${APP_NAME}`,
+			description: 'Transparent governance of USDU protocol modules with expiration-based proposals and secure timelock controls.',
+			type: 'website' as const,
+			url: `${APP_URL}/modules`,
+		},
+	},
+} as const;

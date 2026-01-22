@@ -346,6 +346,56 @@ export default function MyComponent() {
 - Consistent behavior across the app
 - No duplicate code
 
+## SEO & Metadata
+
+### NextSeo Usage Pattern
+
+**CRITICAL: Always use centralized SEO constants from `lib/constants.ts`**
+
+Never hardcode SEO metadata in pages. All titles, descriptions, and OpenGraph data should be defined in the `SEO` constant.
+
+❌ **BAD - Hardcoded metadata:**
+```tsx
+<NextSeo
+	title="My Page - USDU Finance"
+	description="Some description here..."
+/>
+```
+
+✅ **GOOD - Use constants:**
+```tsx
+import { SEO } from '@/lib/constants';
+
+<NextSeo
+	title={SEO.myPage.title}
+	description={SEO.myPage.description}
+	openGraph={SEO.myPage.openGraph}
+/>
+```
+
+**Adding new page metadata:**
+1. Add entry to `SEO` constant in `lib/constants.ts`
+2. Use template literals with `APP_NAME`, `APP_URL`, `PROJECT.description` where appropriate
+3. Include title, description, and openGraph (with type, url)
+4. Import and use in page component
+
+**Example:**
+```typescript
+// lib/constants.ts
+export const SEO = {
+	myNewPage: {
+		title: `My New Page - ${APP_NAME}`,
+		description: 'Page description here',
+		openGraph: {
+			title: `My New Page - ${APP_NAME}`,
+			description: 'OpenGraph description',
+			type: 'website' as const,
+			url: `${APP_URL}/my-new-page`,
+		},
+	},
+};
+```
+
 ## Development Guidelines
 
 1. **Always** create section components in `components/sections/`
@@ -360,3 +410,4 @@ export default function MyComponent() {
 10. **Always use Next.js `Link`** component for URLs (never `<a>` tags)
 11. **Never duplicate utility functions** in components - use or extend centralized utils
 12. **Use `AddressDisplay` or `AddressLink`** components for blockchain addresses
+13. **Use centralized SEO constants** from `lib/constants.ts` (never hardcode metadata)

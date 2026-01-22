@@ -11,6 +11,8 @@ import {
 	sortModules,
 	getModuleStatus,
 } from '@/components/sections/modules/helpers';
+import { NextSeo } from 'next-seo';
+import { SEO } from '@/lib/constants';
 
 export default function ModulesPage() {
 	const { modules, activeModules, history, isLoading, error } = useModuleDataAll(mainnet.id);
@@ -29,34 +31,42 @@ export default function ModulesPage() {
 
 	if (isLoading) {
 		return (
-			<section className="relative min-h-screen px-4 pt-32 text-center bg-usdu-card">
-				<div>
-					<h1 className="text-3xl font-bold text-usdu-black mb-2">Modules</h1>
-					<p className="text-text-secondary">Loading modules...</p>
-				</div>
-				<div className="flex items-center justify-center py-20">
-					<FontAwesomeIcon icon={faRefresh} className="w-8 h-8 text-usdu-orange animate-spin" />
-				</div>
-			</section>
+			<>
+				<NextSeo title={SEO.modules.title} description={SEO.modules.description} openGraph={SEO.modules.openGraph} />
+				<section className="relative min-h-screen px-4 pt-32 text-center bg-usdu-card">
+					<div>
+						<h1 className="text-3xl font-bold text-usdu-black mb-2">Modules</h1>
+						<p className="text-text-secondary">Loading modules...</p>
+					</div>
+					<div className="flex items-center justify-center py-20">
+						<FontAwesomeIcon icon={faRefresh} className="w-8 h-8 text-usdu-orange animate-spin" />
+					</div>
+				</section>
+			</>
 		);
 	}
 
 	if (error) {
 		return (
-			<section className="relative min-h-screen px-4 pt-32 text-center bg-usdu-card">
-				<div>
-					<h1 className="text-3xl font-bold text-usdu-black mb-2">Modules</h1>
-					<p className="text-text-secondary">Manage protocol modules and governance</p>
-				</div>
-				<div className="bg-red-50 border border-red-200 rounded-xl mt-12 p-6 md:mx-12">
-					<p className="text-red-600">Error loading modules: {error}</p>
-				</div>
-			</section>
+			<>
+				<NextSeo title={SEO.modules.title} description={SEO.modules.description} openGraph={SEO.modules.openGraph} />
+				<section className="relative min-h-screen px-4 pt-32 text-center bg-usdu-card">
+					<div>
+						<h1 className="text-3xl font-bold text-usdu-black mb-2">Modules</h1>
+						<p className="text-text-secondary">Manage protocol modules and governance</p>
+					</div>
+					<div className="bg-red-50 border border-red-200 rounded-xl mt-12 p-6 md:mx-12">
+						<p className="text-red-600">Error loading modules: {error}</p>
+					</div>
+				</section>
+			</>
 		);
 	}
 
 	return (
 		<>
+			<NextSeo title={SEO.modules.title} description={SEO.modules.description} openGraph={SEO.modules.openGraph} />
+
 			<ModulesOverview allModules={allModules} activeModules={activeModules} getModuleStatus={getStatus} />
 			<ModulesList sortedModules={sortedModules} historyByModule={historyByModule} getModuleStatus={getStatus} />
 		</>
