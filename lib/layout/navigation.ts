@@ -1,0 +1,36 @@
+import { NavigationItem } from '@/components/layout/Layout.types';
+import {
+	faChartColumn,
+	faHome,
+	faDroplet,
+	faPercentage,
+	faCalendarAlt,
+	faEye,
+} from '@fortawesome/free-solid-svg-icons';
+
+export const homeNavigation: NavigationItem[] = [
+	{ name: 'Maturities', href: '/maturities' },
+	{ name: 'Transparency', href: '/transparency' },
+	{ name: 'Modules', href: '/modules' },
+];
+
+export const dashboardNavigation = [
+	{ name: 'Overview', href: '/dashboard', icon: faHome },
+	{ name: 'Liquidity', href: '/dashboard/liquidity', icon: faDroplet },
+	{
+		name: 'Borrow',
+		href: '/dashboard/borrow',
+		icon: faPercentage,
+	},
+	{
+		name: 'Maturity',
+		href: '/dashboard/maturity',
+		icon: faCalendarAlt,
+	},
+	{
+		name: 'Transparency',
+		href: '/dashboard/transparency',
+		icon: faEye,
+	},
+	{ name: 'Analytics', href: '/dashboard/analytics', icon: faChartColumn },
+];

@@ -5,27 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { PROJECT } from '@/lib/constants';
 import Footer from './Footer';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import Image from 'next/image';
+import { LayoutProps } from './Layout.types';
+import { homeNavigation } from '@/lib/layout/navigation';
 
-interface NavigationItem {
-	name: string;
-	href: string;
-	icon?: IconProp;
-	external?: boolean;
-}
-
-const navigation: NavigationItem[] = [
-	{ name: 'Maturities', href: '/maturities' },
-	{ name: 'Transparency', href: '/transparency' },
-	{ name: 'Modules', href: '/modules' },
-];
-
-interface HomeLayoutProps {
-	children: React.ReactNode;
-}
-
-export default function HomeLayout({ children }: HomeLayoutProps) {
+export default function HomeLayout({ children }: LayoutProps) {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const router = useRouter();
 
@@ -40,8 +24,8 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 	return (
 		<div className="min-h-screen bg-usdu-bg text-text-primary">
 			{/* Home Header */}
-			<header className="fixed top-0 left-0 right-0 z-50 bg-usdu-card border-b border-usdu-surface">
-				<div className="container mx-auto px-4 py-4">
+			<header className="fixed top-0 left-0 right-0 z-50 bg-usdu-bg border-b border-usdu-surface">
+				<div className="mx-auto max-md:px-4 px-16 py-3">
 					<div className="flex items-center justify-between">
 						{/* Logo */}
 						<div className="flex items-center gap-4">
@@ -58,7 +42,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 
 						{/* Desktop Navigation */}
 						<nav className="hidden md:flex items-center space-x-8">
-							{navigation.map((item) =>
+							{homeNavigation.map((item) =>
 								item.external ? (
 									<a
 										key={item.name}
@@ -111,7 +95,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 					{isMobileMenuOpen && (
 						<div className="md:hidden mt-4 pb-4 border-t border-usdu-surface pt-4">
 							<nav className="space-y-4">
-								{navigation.map((item) =>
+								{homeNavigation.map((item) =>
 									item.external ? (
 										<a
 											key={item.name}
@@ -154,7 +138,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
 				</div>
 			</header>
 
-			<main className="mt-18">{children}</main>
+			<main className="">{children}</main>
 
 			<Footer />
 		</div>
