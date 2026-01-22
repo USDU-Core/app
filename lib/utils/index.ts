@@ -10,6 +10,9 @@ export {
 	formatDuration,
 	isDateExpired,
 	isDateUpcoming,
+	formatTimestampLocale,
+	formatDateOnly,
+	formatTimeOnly,
 } from './format-date';
 
 // Number formatting

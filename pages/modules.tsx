@@ -29,7 +29,7 @@ export default function ModulesPage() {
 
 	if (isLoading) {
 		return (
-			<div className="container mx-auto px-4 py-12 space-y-8">
+			<section className="relative min-h-screen px-4 pt-32 text-center bg-usdu-card">
 				<div>
 					<h1 className="text-3xl font-bold text-usdu-black mb-2">Modules</h1>
 					<p className="text-text-secondary">Loading modules...</p>
@@ -37,28 +37,28 @@ export default function ModulesPage() {
 				<div className="flex items-center justify-center py-20">
 					<FontAwesomeIcon icon={faRefresh} className="w-8 h-8 text-usdu-orange animate-spin" />
 				</div>
-			</div>
+			</section>
 		);
 	}
 
 	if (error) {
 		return (
-			<div className="container mx-auto px-4 py-12 space-y-8">
+			<section className="relative min-h-screen px-4 pt-32 text-center bg-usdu-card">
 				<div>
 					<h1 className="text-3xl font-bold text-usdu-black mb-2">Modules</h1>
 					<p className="text-text-secondary">Manage protocol modules and governance</p>
 				</div>
-				<div className="bg-red-50 border border-red-200 rounded-xl p-6">
+				<div className="bg-red-50 border border-red-200 rounded-xl mt-12 p-6 md:mx-12">
 					<p className="text-red-600">Error loading modules: {error}</p>
 				</div>
-			</div>
+			</section>
 		);
 	}
 
 	return (
-		<div className="min-h-screen bg-usdu-bg pt-24">
+		<>
 			<ModulesOverview allModules={allModules} activeModules={activeModules} getModuleStatus={getStatus} />
 			<ModulesList sortedModules={sortedModules} historyByModule={historyByModule} getModuleStatus={getStatus} />
-		</div>
+		</>
 	);
 }

@@ -66,3 +66,30 @@ export const isDateUpcoming = (timestamp: number | bigint): boolean => {
 	const date = dayjs(Number(timestamp) * 1000);
 	return date.isAfter();
 };
+
+/**
+ * Format timestamp using locale string (e.g., "1/22/2026, 12:35:00 PM")
+ * @param timestamp - Unix timestamp in seconds
+ */
+export const formatTimestampLocale = (timestamp: number | bigint): string => {
+	const date = new Date(Number(timestamp) * 1000);
+	return date.toLocaleString();
+};
+
+/**
+ * Format timestamp as locale date only (e.g., "1/22/2026")
+ * @param timestamp - Unix timestamp in seconds
+ */
+export const formatDateOnly = (timestamp: number | bigint): string => {
+	const date = new Date(Number(timestamp) * 1000);
+	return date.toLocaleDateString();
+};
+
+/**
+ * Format timestamp as locale time only (e.g., "12:35:00 PM")
+ * @param timestamp - Unix timestamp in seconds
+ */
+export const formatTimeOnly = (timestamp: number | bigint): string => {
+	const date = new Date(Number(timestamp) * 1000);
+	return date.toLocaleTimeString();
+};

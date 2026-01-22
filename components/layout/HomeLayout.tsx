@@ -24,8 +24,8 @@ export default function HomeLayout({ children }: LayoutProps) {
 	return (
 		<div className="min-h-screen bg-usdu-bg text-text-primary">
 			{/* Home Header */}
-			<header className="fixed top-0 left-0 right-0 z-50 bg-usdu-card border-b border-usdu-surface">
-				<div className="container mx-auto px-4 py-4">
+			<header className="fixed top-0 left-0 right-0 z-50 bg-usdu-bg border-b border-usdu-surface">
+				<div className="mx-auto max-md:px-4 px-16 py-3">
 					<div className="flex items-center justify-between">
 						{/* Logo */}
 						<div className="flex items-center gap-4">
@@ -138,7 +138,7 @@ export default function HomeLayout({ children }: LayoutProps) {
 				</div>
 			</header>
 
-			<main className="mt-18">{children}</main>
+			<main className="">{children}</main>
 
 			<Footer />
 		</div>

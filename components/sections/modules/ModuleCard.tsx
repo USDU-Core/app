@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Accordion from '@/components/ui/Accordion';
 import type { StablecoinModule, StablecoinModuleHistoryItem } from '@/hooks/useModulesData';
-import { formatAddress } from '@/lib/utils';
+import { formatAddress, formatTimestampLocale, formatDateOnly, formatTimeOnly } from '@/lib/utils';
 
 interface ModuleCardProps {
 	module: StablecoinModule;
@@ -33,21 +33,6 @@ export default function ModuleCard({ module, moduleHistory, status }: ModuleCard
 		return () => clearInterval(interval);
 	}, []);
 
-	const formatTimestamp = (timestamp: bigint) => {
-		const date = new Date(Number(timestamp) * 1000);
-		return date.toLocaleString();
-	};
-
-	const formatDate = (timestamp: bigint) => {
-		const date = new Date(Number(timestamp) * 1000);
-		return date.toLocaleDateString();
-	};
-
-	const formatTime = (timestamp: bigint) => {
-		const date = new Date(Number(timestamp) * 1000);
-		return date.toLocaleTimeString();
-	};
-
 	const getTimelockStatus = (createdAt: bigint, timelock: bigint | null) => {
 		if (!timelock) return null;
 
@@ -58,7 +43,7 @@ export default function ModuleCard({ module, moduleHistory, status }: ModuleCard
 		if (isPast) {
 			return {
 				isPast: true,
-				display: formatTimestamp(BigInt(timelockEndTime)),
+				display: formatTimestampLocale(BigInt(timelockEndTime)),
 			};
 		} else {
 			const remaining = timelockEndTime - now;
@@ -139,31 +124,23 @@ export default function ModuleCard({ module, moduleHistory, status }: ModuleCard
 				{/* Module Details Grid */}
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
 					<div>
+						<p className="text-text-secondary mb-1">Created</p>
+						<p className="text-usdu-black font-medium">{formatTimestampLocale(module.createdAt)}</p>
+					</div>
+					<div>
 						<p className="text-text-secondary mb-1">Last Updated</p>
-						<p className="text-usdu-black font-medium">{formatTimestamp(module.updatedAt)}</p>
+						<p className="text-usdu-black font-medium">{formatTimestampLocale(module.updatedAt)}</p>
 					</div>
 					<div>
 						<p className="text-text-secondary mb-1">Expires</p>
-						<p className="text-usdu-black font-medium">{formatTimestamp(module.expiredAt)}</p>
-					</div>
-					<div>
-						<p className="text-text-secondary mb-1">Transaction</p>
-						<a
-							href={`https://etherscan.io/tx/${module.txHash}`}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="text-usdu-orange hover:text-usdu-orange/80 flex items-center gap-1 font-mono"
-						>
-							{formatAddress(module.txHash)}
-							<FontAwesomeIcon icon={faExternalLinkAlt} className="w-3 h-3" />
-						</a>
+						<p className="text-usdu-black font-medium">{formatTimestampLocale(module.expiredAt)}</p>
 					</div>
 				</div>
 			</div>
 
 			{/* Module History Accordion */}
 			{moduleHistory.length > 0 && (
-				<div className="border-t border-usdu-surface">
+				<div className="">
 					<Accordion
 						title={
 							<div className="flex items-center justify-between w-full">
@@ -190,8 +167,8 @@ export default function ModuleCard({ module, moduleHistory, status }: ModuleCard
 												</span>
 											</div>
 											<div className="text-xs text-text-secondary text-right">
-												<div>{formatDate(historyItem.createdAt)}</div>
-												<div>{formatTime(historyItem.createdAt)}</div>
+												<div>{formatDateOnly(historyItem.createdAt)}</div>
+												<div>{formatTimeOnly(historyItem.createdAt)}</div>
 											</div>
 										</div>
 										<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
@@ -217,7 +194,7 @@ export default function ModuleCard({ module, moduleHistory, status }: ModuleCard
 												<div className="order-3">
 													<p className="text-text-secondary mb-1">Expires At</p>
 													<p className="text-usdu-black">
-														{formatTimestamp(historyItem.expiredAt)}
+														{formatTimestampLocale(historyItem.expiredAt)}
 													</p>
 												</div>
 											)}

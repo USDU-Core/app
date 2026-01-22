@@ -221,6 +221,43 @@ import { formatCurrency } from '@/lib/utils/format-number';
 5. **Central exports** - Always use index.ts for re-exports
 6. **Update all imports** - When refactoring, update all file imports
 
+### Critical: Don't Duplicate Utility Functions
+
+**NEVER** create local utility functions in components when a centralized utility exists or could exist.
+
+❌ **BAD - Duplicate local functions:**
+```tsx
+export default function MyComponent() {
+	const formatTimestamp = (timestamp: bigint) => {
+		const date = new Date(Number(timestamp) * 1000);
+		return date.toLocaleString();
+	};
+
+	return <div>{formatTimestamp(data.createdAt)}</div>;
+}
+```
+
+✅ **GOOD - Use or extend centralized utilities:**
+```tsx
+import { formatTimestampLocale } from '@/lib/utils';
+
+export default function MyComponent() {
+	return <div>{formatTimestampLocale(data.createdAt)}</div>;
+}
+```
+
+**If a utility doesn't exist:**
+1. Add it to the appropriate file in `lib/utils/` (e.g., format-date.ts, format-string.ts)
+2. Export it from `lib/utils/index.ts`
+3. Import and use it in your component
+4. This makes it reusable across the entire codebase
+
+**Benefits:**
+- Single source of truth
+- Easier testing and maintenance
+- Consistent behavior across the app
+- No duplicate code
+
 ## Development Guidelines
 
 1. **Always** create section components in `components/sections/`

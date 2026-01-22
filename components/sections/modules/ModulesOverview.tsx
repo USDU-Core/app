@@ -7,14 +7,9 @@ import type { StablecoinModule } from '@/hooks/useModulesData';
 
 const features = [
 	{
-		icon: faClock,
-		title: 'Expiration-Based Proposals',
-		description: 'Time-locked governance system allowing careful review before changes take effect.',
-	},
-	{
-		icon: faShieldAlt,
-		title: 'Secure Timelock',
-		description: 'Review and revoke proposals during the timelock phase for enhanced security.',
+		icon: faCogs,
+		title: 'Modular Architecture',
+		description: 'Flexible adapter system enabling integration with various DeFi protocols.',
 	},
 	{
 		icon: faSync,
@@ -22,9 +17,14 @@ const features = [
 		description: 'Seamlessly add, update, or remove protocol adapters through governance.',
 	},
 	{
-		icon: faCogs,
-		title: 'Modular Architecture',
-		description: 'Flexible adapter system enabling integration with various DeFi protocols.',
+		icon: faClock,
+		title: 'Expiration-Based Modules',
+		description: 'Modules are set with expiration dates, ensuring controlled lifecycles.',
+	},
+	{
+		icon: faShieldAlt,
+		title: 'Secure Timelock',
+		description: 'Review and revoke changes during the timelock phase for enhanced security.',
 	},
 ];
 
@@ -36,8 +36,8 @@ interface ModulesOverviewProps {
 
 export default function ModulesOverview({ allModules, activeModules, getModuleStatus }: ModulesOverviewProps) {
 	return (
-		<section className="py-20 bg-usdu-card">
-			<div className="container mx-auto px-4">
+		<section className="relative px-4 md:px-8 lg:px-16 pt-32 pb-16 bg-usdu-card">
+			<div className="">
 				<motion.div
 					initial={{ opacity: 0, y: 30 }}
 					whileInView={{ opacity: 1, y: 0 }}
